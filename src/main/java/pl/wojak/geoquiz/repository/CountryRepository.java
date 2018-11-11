@@ -1,13 +1,13 @@
 package pl.wojak.geoquiz.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import pl.wojak.geoquiz.entity.Country;
+import pl.wojak.geoquiz.entity.CountryEntity;
 
 import java.util.List;
 
-public interface CountryRepository extends CrudRepository<Country, Long> {
+public interface CountryRepository extends CrudRepository<CountryEntity, Long> {
 
-    List<Country> findCountriesByContinent(String continent);
+    List<CountryEntity> findCountriesByContinent(String continent);
 
-     Country findCountryByCapital(String capital);
+     CountryEntity findCountryByCapital(String capital);
 }

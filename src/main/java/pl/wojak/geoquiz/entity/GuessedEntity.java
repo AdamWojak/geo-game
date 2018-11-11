@@ -1,28 +1,28 @@
 package pl.wojak.geoquiz.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "country", schema = "geo_schema")
-@Data
+@Table(name = "guessed", schema = "geo_schema")
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Country {
+public class GuessedEntity {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String continent;
+    @ManyToOne
+    @JoinColumn(name = "game_id")
+    private GameEntity game;
 
-    @Column(name = "country_name")
-    private String countryName;
-
-    private String capital;
+    @OneToOne()
+    @JoinColumn(name = "country_id")
+    private CountryEntity country;
 }

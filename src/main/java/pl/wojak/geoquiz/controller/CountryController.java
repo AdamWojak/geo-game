@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.wojak.geoquiz.entity.Country;
+import pl.wojak.geoquiz.entity.CountryEntity;
 import pl.wojak.geoquiz.repository.CountryRepository;
 
 @RestController
@@ -17,15 +17,15 @@ public class CountryController {
 
 
     @GetMapping("/{id}")
-    public Country pobierzKrajPoId(@PathVariable Long id) {
-        Country country = countryRepository.findById(id).orElseThrow(null);
-        return country;
+    public CountryEntity pobierzKrajPoId(@PathVariable Long id) {
+        CountryEntity countryEntity = countryRepository.findById(id).orElseThrow(null);
+        return countryEntity;
     }
 
     @GetMapping("/capital/{capital}")
     public String pobierzNazweKrajuPoStolicy(@PathVariable String capital) {
-        Country country = countryRepository.findCountryByCapital(capital);
-        return country.toString();
+        CountryEntity countryEntity = countryRepository.findCountryByCapital(capital);
+        return countryEntity.toString();
     }
 
 
