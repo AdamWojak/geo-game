@@ -14,7 +14,7 @@ import java.util.Set;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class UserEntity {
 
 
     @Id
