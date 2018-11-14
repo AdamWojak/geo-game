@@ -14,8 +14,8 @@ public class HomeController {
     public String hello(Model model) {
 
         UserEntity u1 = new UserEntity();
-        u1.setUserName("Adam W");
-
+        u1.setUserName("adam");
+//        u1.setUserName("anonymous");
         model.addAttribute("user", u1);
 
 // https://www.thymeleaf.org/doc/articles/springmvcaccessdata.html

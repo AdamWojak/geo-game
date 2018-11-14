@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>GEO-QUIZ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}"/>
+</head>
+<body>
+
+<div id="container">
+
+    <!--&lt;!&ndash;<div th:switch="${user.role}">&ndash;&gt;-->
+        <!--&lt;!&ndash;<p th:case="'admin'">User is an administrator</p>&ndash;&gt;-->
+        <!--&lt;!&ndash;<p th:case="#{roles.manager}">User is a manager</p>&ndash;&gt;-->
+        <!--&lt;!&ndash;<p th:case="*">User is some other thing</p>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+    <!--<div id="login" th:switch="${user.userName}">-->
+        <!--<p th:case="'anonymous'">-->
+                <!--<a href="user/login"> Zaloguj </a> &nbsp; || &nbsp;-->
+                <!--<a href="user/register"> Zarejestruj się </a>-->
+        <!--</p>-->
+        <!--<p th:case="">-->
+                <!--<a href="user/login"> Zaloguj </a> &nbsp; || &nbsp;-->
+                <!--<a href="user/register"> Zarejestruj się </a>-->
+        <!--</p>-->
+        <!--<p th:case="*">-->
+            <!--<p th:text="${user.userName}"> &nbsp; || &nbsp;</p>-->
+                <!--<a href="user/logout"> (Wyloguj) </a>-->
+        <!--</p>-->
+    <!--</div>-->
+
+    <div id="main">
+        <h1> Cześć &nbsp; <i class="fa fa-smile-o" aria-hidden="true"></i> &nbsp; jeszcze nie ma tej funkcjonalności. </h1>
+        <h1>Pracuje nad tym!</h1>
+        <br>
+        <br>
+        <h2>Miłej zabawy :-)</h2>
+        <p>Adam Wojak</p>
+    </div>
+
+    <div id="footer">
+        <a href="game/newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="game/saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="game/end"> Koniec </a>
+    </div>
+
+
+</div>
+</body>
+</html>
