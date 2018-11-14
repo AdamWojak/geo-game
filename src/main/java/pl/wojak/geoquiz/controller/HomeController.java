@@ -3,6 +3,7 @@ package pl.wojak.geoquiz.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.wojak.geoquiz.entity.UserEntity;
 
 @Controller
 public class HomeController {
@@ -12,8 +13,12 @@ public class HomeController {
     @RequestMapping("/")
     public String hello(Model model) {
 
-        model.addAttribute("userName", USERNAME);
+        UserEntity u1 = new UserEntity();
+        u1.setUserName("Adam W");
 
+        model.addAttribute("user", u1);
+
+// https://www.thymeleaf.org/doc/articles/springmvcaccessdata.html
         return "index";
     }
 
