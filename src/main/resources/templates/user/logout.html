@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Wyloguj</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}"/>
 </head>
 <body>
 
+<div id="container">
+
+    <div id="main">
+
+        <h1>GRA GEO-QUIZ: Państwa - Stolice</h1>
+        <h1>${user.userName}! Czy na pewno chcesz się wylogować?</h1>
+        <br> <br>
+
+        <div class="options">
+
+            <h2>
+                <a href="loggedout"> TAK </a>
+            </h2>
+            &nbsp;&nbsp; || &nbsp;
+            <h2>
+                <a href="/geoquiz"> NIE </a>
+            </h2>
+
+        </div>
+
+
+    </div>
+</div>
 </body>
 </html>

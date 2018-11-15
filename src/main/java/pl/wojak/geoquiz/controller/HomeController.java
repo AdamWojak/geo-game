@@ -10,7 +10,7 @@ public class HomeController {
 
     private final String USERNAME = "Anonymous";
 
-    @RequestMapping("/")
+    @RequestMapping({"/", "/geoquiz"})
     public String hello(Model model) {
 
         UserEntity u1 = new UserEntity();

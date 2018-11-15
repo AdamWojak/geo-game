@@ -1,10 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Zarejestruj się</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}"/>
 </head>
 <body>
+
+<div id="container">
+
+    <div class="form">
+        <form:form action="register" modelAttribute="register" method="post">
+            <form:errors path="*"></form:errors>
+            <fieldset>
+                <legend> Formularz rejestracji: </legend>
+                <form:input path="userName" placeholder="login" />
+                <form:errors path="userName" class="error"/>
+                <form:input path="email" type="email" placeholder="email" />
+                <form:errors path="email" class="error"/>
+                <form:password path="password" placeholder="hasło" />
+                <form:errors path="password" class="error"/>
+                <form:password path="verifiedPassword" placeholder="powtórz hasło" />
+                <form:errors path="verifiedPassword" class="error"/>
+                <input type="submit" value="Zarejestruj się">
+
+                <label class="label">
+                    Masz konto: &nbsp; <a href="login"> Zaloguj się </a>
+                </label>
+
+            </fieldset>
+        </form:form>
+    </div>
+
+    <div class="options margin-top">
+        <a href="../game/newgame"> Nowa Gra </a> &nbsp;&nbsp; |	&nbsp;&nbsp;
+        <a href="../game/saved"> Wczytaj grę </a> &nbsp;&nbsp; |	&nbsp;&nbsp;
+        <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../game/end"> Koniec </a>
+    </div>
+
+</div>
 
 </body>
 </html>
