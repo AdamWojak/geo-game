@@ -1,11 +1,3 @@
-<!--<h2 th:utext="${message}">..!..</h2>-->
-
-<!--<span><a href="http://www.google.com">Google</a></span>-->
-
-<!--<a th:href="@{/personList}">Person List</a>-->
-<!--<a th:href="@{/user/logout}"> (Wyloguj) </a>-->
-
-
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -18,11 +10,11 @@
 <div id="container">
 
     <div id="login" th:switch="${user.userName}">
-        <span th:case="'anonymous'">
+        <span th:case="'Anonymous'">
             <a href="user/login"> Zaloguj </a> &nbsp; || &nbsp;
             <a href="user/register"> Zarejestruj się </a>
         </span>
-        <span th:case="''">
+        <span th:case="null">
             <a href="user/login"> Zaloguj </a> &nbsp; || &nbsp;
             <a href="user/register"> Zarejestruj się </a>
         </span>
@@ -37,7 +29,8 @@
 
 
         <h1>GEO-QUIZ: Państwa - Stolice</h1>
-        <h2 th:text="'Cześć ' + ${user.userName}"></h2>
+        <h2 th:text="${user.userName == null} ? 'Cześć!' : 'Cześć ' + ${user.userName} + '!'"></h2>
+
 
         <br>
         <div class="center">

@@ -26,13 +26,13 @@ public class UserEntity {
 
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<GameEntity> games;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private Set<GameEntity> games;
 
     private String password;
 
-    @Transient // this annotation cause there won't be such column in database
-    private String verifiedPassword;
+//    @Transient // this annotation cause there won't be such column in database
+//    private String verifiedPassword;
 
 
 }

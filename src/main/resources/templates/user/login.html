@@ -3,38 +3,38 @@
 <head>
     <title>Zaloguj się</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styleRegisterLogin.css}"/>
 </head>
 <body>
 
 <div id="container">
     <div class="form">
-        <form:form action="login" modelAttribute="login" method="post">
+        <form action="#" th:action="@{/user/login}" th:object="${user}" method="post">
             <fieldset>
-                <legend> Formularz logowania: </legend>
-                <form:input path="userName" placeholder="login"/>
-                <form:errors path="userName" class="error"/>
-                <form:input path="password" type="password" placeholder="hasło"/>
-                <form:errors path="password" class="error"/>
-                ${zle}
-                <input type="submit" value="Zaloguj">
+                <legend> Formularz logowania:</legend>
+                <input th:field="*{userName}" type="text" placeholder="login"/>
+                <errors th:field="*{userName}" class="error"/>
+                <input th:field="*{password}" type="password" placeholder="hasło"/>
+                <errors th:field="*{password}" class="error"/>
+                <p th:text="${zle}" th:unless="${zle == null}"></p>
+
+                <input type="submit" value="Zaloguj"/>
                 <label class="label">
                     <!-- to work through that link, it has to be @RequestMapping in LoginController - register -->
                     Nie masz konta: &nbsp; <a href="register"> Zarejestruj się </a>
                 </label>
             </fieldset>
-        </form:form>
+        </form>
     </div>
 
     <div class="options margin-top">
-        <a href="../game/newgame"> Nowa Gra </a> &nbsp;&nbsp; |	&nbsp;&nbsp;
-        <a href="../game/saved"> Wczytaj grę </a> &nbsp;&nbsp; |	&nbsp;&nbsp;
+        <a href="../game/newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../game/saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="../game/end"> Koniec </a>
     </div>
 </div>
-
 
 
 </body>

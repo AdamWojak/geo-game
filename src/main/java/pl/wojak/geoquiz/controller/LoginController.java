@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.context.request.WebRequest;
 import pl.wojak.geoquiz.entity.UserEntity;
 import pl.wojak.geoquiz.repository.UserRepository;
 
@@ -12,7 +14,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
-@SessionAttributes({ "user", "game" })
+@SessionAttributes({"user", "game"})
 public class LoginController {
 
     @Autowired
@@ -20,7 +22,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String showLoginForm(Model model) {
-        model.addAttribute("login", new UserEntity());
+        model.addAttribute("user", new UserEntity());
         return "user/login";
     }
 
@@ -47,11 +49,14 @@ public class LoginController {
 
     @GetMapping("/logout")
     public String logout(Model model) {
+        System.out.println("test");
         return "user/logout";
     }
 
     @GetMapping("/loggedout")
-    public String loggedout(Model model) {
+    public String loggedout(Model model, WebRequest request, SessionStatus status) {
+        status.setComplete();
+        request.removeAttribute("user", WebRequest.SCOPE_SESSION);
         return "user/loggedout";
     }
 
