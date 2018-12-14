@@ -27,7 +27,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String validateLoginForm(@ModelAttribute("login") @Valid UserEntity user, BindingResult result, Model model) {
+    public String validateLoginForm(@ModelAttribute("user") @Valid UserEntity user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "user/login";
         } else {
@@ -62,12 +62,12 @@ public class LoginController {
 
     @GetMapping("/register")
     public String register(Model model) {
-        model.addAttribute("register", new UserEntity());
+        model.addAttribute("user", new UserEntity());
         return "user/register";
     }
 
     @PostMapping("/register")
-    public String verifyRegister(@ModelAttribute("register") @Valid UserEntity user, BindingResult result, Model model) {
+    public String verifyRegister(@ModelAttribute("user") @Valid UserEntity user, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             return "user/register";
