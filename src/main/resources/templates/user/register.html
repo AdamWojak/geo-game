@@ -10,18 +10,18 @@
 <div id="container">
 
     <div class="form">
-        <form:form action="register" modelAttribute="register" method="post">
-            <form:errors path="*"></form:errors>
+        <form action="#" th:action="@{/user/register}" th:object="${user}" method="post">
+            <errors path="*"></errors>
             <fieldset>
                 <legend> Formularz rejestracji: </legend>
-                <form:input path="userName" placeholder="login" />
-                <form:errors path="userName" class="error"/>
-                <form:input path="email" type="email" placeholder="email" />
-                <form:errors path="email" class="error"/>
-                <form:password path="password" placeholder="hasło" />
-                <form:errors path="password" class="error"/>
-                <form:password path="verifiedPassword" placeholder="powtórz hasło" />
-                <form:errors path="verifiedPassword" class="error"/>
+                <input th:field="*{userName}" type="text" placeholder="login" />
+                <errors th:field="*{userName}" class="error"/>
+                <input th:field ="*{email}" type="email" placeholder="email" />
+                <errors th:field ="*{email}" class="error"/>
+                <input th:field="*{password}" type="password" placeholder="hasło" />
+                <errors th:field="*{password}" class="error"/>
+                <input th:field="*{verifiedPassword}" type="password" placeholder="powtórz hasło" />
+                <errors path="verifiedPassword" class="error"/>
                 <input type="submit" value="Zarejestruj się">
 
                 <label class="label">
@@ -29,7 +29,7 @@
                 </label>
 
             </fieldset>
-        </form:form>
+        </form>
     </div>
 
     <div class="options margin-top">
