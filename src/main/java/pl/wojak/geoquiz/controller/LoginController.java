@@ -73,6 +73,7 @@ public class LoginController {
             return "user/register";
         } else {
             userRepository.save(user);
+//            todo użytkownik "a" poprawnie dodany do bazy
             return "redirect:/user/login";
 
         }
