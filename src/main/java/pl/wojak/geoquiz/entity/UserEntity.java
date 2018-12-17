@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "user", schema = "geo_schema")
@@ -31,21 +31,20 @@ public class UserEntity {
 
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<GameEntity> games;
-
     private String password;
 
     @Transient // this annotation cause there won't be such column in database
     private String verifiedPassword;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<GameEntity> games;
 
     public UserEntity(String userName) {
         this.userName = userName;
         this.email = ANONYMOUS_EMAIL;
         this.password = ANONYMOUS_PASSWORD;
         GameEntity game = new GameEntity();
-        games = new HashSet<>();
+        games = new ArrayList<>();
         games.add(game);
     }
 

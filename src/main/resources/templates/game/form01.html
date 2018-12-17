@@ -12,39 +12,38 @@
 <div class="container">
 
 
-    <!--<div class="login">-->
-        <!--<c:choose>-->
-            <!--<c:when test="${user.userName =='anonymous'}">-->
-                <!--<a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;-->
-                <!--<a href="../user/register"> Zarejestruj się </a>-->
-            <!--</c:when>-->
-            <!--<c:when test="${empty user.userName}">-->
-                <!--<a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;-->
-                <!--<a href="../user/register"> Zarejestruj się </a>-->
-            <!--</c:when>-->
-            <!--<c:otherwise>-->
-                <!--${user.userName} &nbsp; || &nbsp;-->
-                <!--<a href="../user/logout"> (Wyloguj) </a>-->
-            <!--</c:otherwise>-->
-        <!--</c:choose>-->
-    <!--</div>-->
+    <div class="login" th:switch="${user.userName}">
+        <span th:case="'Anonymous'">
+            <a href="user/login"> Zaloguj </a> &nbsp; || &nbsp;
+            <a href="user/register"> Zarejestruj się </a>
+        </span>
+        <span th:case="null">
+            <a href="user/login"> Zaloguj </a> &nbsp; || &nbsp;
+            <a href="user/register"> Zarejestruj się </a>
+        </span>
+        <span th:case="*">
+            <span th:text="${user.userName}+ '&nbsp;||&nbsp;'" th:remove="tag"></span>
+            <a href="../user/logout"> (Wyloguj) </a>
+        </span>
+    </div>
 
 
     <div class="main">
         <h1>GEO-QUIZ: Państwa - Stolice</h1>
-        <h2>Użytkowniku ${user.userName} podaj stolicę danego państwa:</h2>
+        <h2 th:text="'Użytkowniku '+${user.userName}+' podaj stolicę danego państwa:'"> </h2>
 
 
-        <form action="form" modelAttribute="countries" method="post">
+        <form action="#" th:action="@{/game/form}" th:object="${countries}" method="post">
             <table>
-                <th:each items="${countries}" var="item">
+                <th:block th:each="country : ${countries}">
                     <tr>
-                        <td>${item.countryName}</td>
+                        <td th:text="${country.countryName}"></td>
                         <td>-</td>
-                        <td><input type="text" name="capital" placeholder="stolica">
-                        </td>
+                        <!--todo-->
+                        <!--https://www.baeldung.com/thymeleaf-list-->
+                        <!--<td><input th:field="*{capital}" type="text" placeholder="stolica"></td>-->
                     </tr>
-                </th:each>
+                </th:block>
                 <!--  	<tr>
                     <td colspan="3"><input type="hidden" name="id_game">  </td>
                 </tr> -->
@@ -55,8 +54,8 @@
         </form>
 
         <div class="center margin-top">
-            Liczba punktów: ${game.amountOfPoints} &nbsp;&nbsp; | &nbsp;&nbsp;
-            Liczba prób: ${game.amountOfAttempts}
+            <p th:text="'Liczba punktów: '+ ${game.amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp;Liczba prób:'+${game.amountOfAttempts}"></p>
+            <!--<h2 th:text="'Użytkowniku '+${game.amountOfPoints}+' podaj stolicę danego państwa:'+"> </h2>-->
         </div>
     </div>
 

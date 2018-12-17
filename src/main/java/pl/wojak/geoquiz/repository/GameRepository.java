@@ -11,10 +11,10 @@ import java.util.List;
 public interface GameRepository extends CrudRepository<GameEntity, Long> {
 
 
-    @Query(value = "select g from Game g where user.id =:id")
+    @Query(value = "select g from GameEntity g where user.id =:id")
     GameEntity findGameByUserId(@Param("id") Long id);
 
-    @Query(value = "select g from Game g where user.userName =:userName")
+    @Query(value = "select g from GameEntity g where user.userName =:userName")
     GameEntity findGameByUserName(@Param("userName") String userName);
 
     List<GameEntity> findAllByUserId(Long id);

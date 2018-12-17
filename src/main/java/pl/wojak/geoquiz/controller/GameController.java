@@ -12,6 +12,7 @@ import pl.wojak.geoquiz.repository.CountryRepository;
 import pl.wojak.geoquiz.repository.GameRepository;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -48,7 +49,17 @@ public class GameController {
 
         model.addAttribute("game", game);
 
-        List<CountryEntity> countries = countryRepository.findRandom3CountriesForOneGame(game.getId());
+        List<CountryEntity> countries = new ArrayList<>();
+//        List<CountryEntity> countries = countryRepository.findRandom3CountriesForOneGame(game.getId());
+
+        CountryEntity c1 = countryRepository.findCountryById(1L);
+        CountryEntity c2 = countryRepository.findCountryById(2L);
+        CountryEntity c3 = countryRepository.findCountryById(3L);
+        countries.add(c1);
+        countries.add(c2);
+        countries.add(c3);
+
+
         model.addAttribute("countries", countries);
 
         if (countries.isEmpty()) {

@@ -9,16 +9,18 @@ import java.util.List;
 
 public interface CountryRepository extends CrudRepository<CountryEntity, Long> {
 
-    @Query(value = "select * from Country where id not in(select country_id from Guessed) order by rand() limit 3", nativeQuery = true)
-    List<CountryEntity> findRandom3Countries();
+//    @Query(value = "select * from Country where id not in(select country_id from Guessed) order by rand() limit 3", nativeQuery = true)
+//    List<CountryEntity> findRandom3Countries();
+//
+//    @Query(value = "select c from Country c where c.continent =:continent order by countryName asc")
+//    List<CountryEntity> findAllByContinentSortedAsc(@Param("continent") String continent);
+//
 
-    @Query(value = "select c from Country c where c.continent =:continent order by countryName asc")
-    List<CountryEntity> findAllByContinentSortedAsc(@Param("continent") String continent);
+//    @Query(value = "select * from CountryEntity where id not in(select country_id from GuessedEntity where GuessedEntity.game_id =:game_id) order by rand() limit 3", nativeQuery = true)
+//    @Query(value = "select * from CountryEntity c order by rand() limit 3", nativeQuery = true)
+//    List<CountryEntity> findRandom3CountriesForOneGame(@Param("game_id") Long id);
 
-    @Query(value = "select * from Country where id not in(select country_id from Guessed where Guessed.game_id =:game_id) order by rand() limit 3", nativeQuery = true)
-    List<CountryEntity> findRandom3CountriesForOneGame(@Param("game_id") Long id);
-
-
+    CountryEntity findCountryById(Long id);
 
     List<CountryEntity> findCountriesByContinent(String continent);
 
