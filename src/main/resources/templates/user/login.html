@@ -12,6 +12,7 @@
         <form action="#" th:action="@{/user/login}" th:object="${user}" method="post">
             <fieldset>
                 <legend> Formularz logowania:</legend>
+                <p style="color:green;" th:text="${registered}" th:unless="${registered == null}"></p>
                 <input th:field="*{userName}" type="text" placeholder="login"/>
                 <errors th:field="*{userName}" class="error"/>
                 <input th:field="*{password}" type="password" placeholder="hasło"/>
