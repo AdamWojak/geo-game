@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "user", schema = "geo_schema")
@@ -17,7 +16,7 @@ import java.util.Set;
 public class UserEntity {
 
 
-//    todo poczytać z generated value:
+    //    todo poczytać z generated value:
 // org.postgresql.util.PSQLException: BŁĄD: podwójna wartość klucza narusza ograniczenie unikalności "user_pkey"
 //    Szczegóły: Klucz (id)=(1) już istnieje.
     @Id

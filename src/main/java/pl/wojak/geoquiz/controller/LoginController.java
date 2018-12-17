@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.wojak.geoquiz.entity.UserEntity;
 import pl.wojak.geoquiz.repository.UserRepository;
 
@@ -31,13 +32,13 @@ public class LoginController {
         if (result.hasErrors()) {
             return "user/login";
         } else {
-            UserEntity userr = userRepository.findUserByUserName(user.getUserName());
-            if (userr == null) {
+            UserEntity dbUser = userRepository.findUserByUserName(user.getUserName());
+            if (dbUser == null) {
                 model.addAttribute("zle", "Nie ma takiego użytkownika!");
                 return "user/login";
             }
-            if ((userr.getUserName().equals(user.getUserName())) && (userr.getPassword().equals(user.getPassword()))) {
-                model.addAttribute("user", userr);
+            if ((dbUser.getUserName().equals(user.getUserName())) && (dbUser.getPassword().equals(user.getPassword()))) {
+                model.addAttribute("user", dbUser);
                 return "redirect:/";
 
             } else {
@@ -67,12 +68,13 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String verifyRegister(@ModelAttribute("user") @Valid UserEntity user, BindingResult result, Model model) {
+    public String verifyRegister(@ModelAttribute("user") @Valid UserEntity user, BindingResult result, Model model, RedirectAttributes redir) {
 
         if (result.hasErrors()) {
             return "user/register";
         } else {
             userRepository.save(user);
+            redir.addFlashAttribute("registered", "Rejestracja przebiegła poprawnie.");
             return "redirect:/user/login";
 
         }
