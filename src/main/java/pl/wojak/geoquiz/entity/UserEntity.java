@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user", schema = "geo_schema")
@@ -15,10 +17,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class UserEntity {
 
+    @Transient
+    private static final String ANONYMOUS_PASSWORD = "123123";
+    @Transient
+    private static final String ANONYMOUS_EMAIL = "anonymous@anonymous.pl";
 
-    //    todo poczytać z generated value:
-// org.postgresql.util.PSQLException: BŁĄD: podwójna wartość klucza narusza ograniczenie unikalności "user_pkey"
-//    Szczegóły: Klucz (id)=(1) już istnieje.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,13 +31,23 @@ public class UserEntity {
 
     private String email;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private Set<GameEntity> games;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<GameEntity> games;
 
     private String password;
 
     @Transient // this annotation cause there won't be such column in database
     private String verifiedPassword;
+
+
+    public UserEntity(String userName) {
+        this.userName = userName;
+        this.email = ANONYMOUS_EMAIL;
+        this.password = ANONYMOUS_PASSWORD;
+        GameEntity game = new GameEntity();
+        games = new HashSet<>();
+        games.add(game);
+    }
 
 
 }

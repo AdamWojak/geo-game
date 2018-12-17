@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Data
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
 public class GameEntity {
 
     @Id
@@ -28,4 +27,16 @@ public class GameEntity {
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+
+    public GameEntity() {
+        this.amountOfPoints = 0;
+        this.amountOfAttempts = 0;
+    }
+
+    public GameEntity(UserEntity user) {
+        this.amountOfPoints = 0;
+        this.amountOfAttempts = 0;
+        this.user = user;
+    }
 }

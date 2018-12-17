@@ -1,7 +1,61 @@
 package pl.wojak.geoquiz.controller;
 
-/**
- * Created by admin on 2018-12-17.
- */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import pl.wojak.geoquiz.entity.CountryEntity;
+import pl.wojak.geoquiz.entity.GameEntity;
+import pl.wojak.geoquiz.entity.UserEntity;
+import pl.wojak.geoquiz.repository.CountryRepository;
+import pl.wojak.geoquiz.repository.GameRepository;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
+
+@Controller
+@RequestMapping("/game")
 public class GameController {
+
+    @Autowired
+    private CountryRepository countryRepository;
+
+    @Autowired
+    private GameRepository gameRepository;
+
+    private static final String ANONYMOUS_VALUE = "anonymous";
+
+    @GetMapping("/newgame")
+    public String newGame(Model model, HttpSession ses) {
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        GameEntity game = new GameEntity();
+
+        if (user == null) {
+            UserEntity anonymous = new UserEntity(ANONYMOUS_VALUE);
+            model.addAttribute("user", anonymous);
+
+            // this part of code solve problem with creation of new game through saved games panel
+        } else {
+            if (user.getUserName().equals(ANONYMOUS_VALUE)) {
+                game = new GameEntity(user);
+                model.addAttribute("game", game);
+            } else {
+                game = new GameEntity(user);
+                gameRepository.save(game);
+            }
+        }
+
+        model.addAttribute("game", game);
+
+        List<CountryEntity> countries = countryRepository.findRandom3CountriesForOneGame(game.getId());
+        model.addAttribute("countries", countries);
+
+        if (countries.isEmpty()) {
+            return "game/win";
+        } else {
+            return "game/form01";
+        }
+    }
+
 }
