@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 public class HomeController {
 
 
-    private final String ANONYMOUS_VALUE = "Anonymous";
+    private final String ANONYMOUS_NAME = "Anonymous";
 
     @Autowired
     UserRepository userRepository;
@@ -26,7 +26,7 @@ public class HomeController {
         UserEntity user = (UserEntity) ses.getAttribute("user");
         if (user == null) {
             user = new UserEntity();
-            user.setUserName(ANONYMOUS_VALUE);
+            user.setUserName(ANONYMOUS_NAME);
         }
 //        UserEntity user = userRepository.findById(1L).orElseThrow(null);
         model.addAttribute("user", user);

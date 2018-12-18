@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.wojak.geoquiz.dto.CountryCreateDTO;
 import pl.wojak.geoquiz.entity.CountryEntity;
 import pl.wojak.geoquiz.entity.GameEntity;
 import pl.wojak.geoquiz.entity.UserEntity;
@@ -25,7 +26,7 @@ public class GameController {
     @Autowired
     private GameRepository gameRepository;
 
-    private static final String ANONYMOUS_VALUE = "anonymous";
+    private final String ANONYMOUS_NAME = "Anonymous";
 
     @GetMapping("/newgame")
     public String newGame(Model model, HttpSession ses) {
@@ -33,12 +34,12 @@ public class GameController {
         GameEntity game = new GameEntity();
 
         if (user == null) {
-            UserEntity anonymous = new UserEntity(ANONYMOUS_VALUE);
+            UserEntity anonymous = new UserEntity(ANONYMOUS_NAME);
             model.addAttribute("user", anonymous);
 
             // this part of code solve problem with creation of new game through saved games panel
         } else {
-            if (user.getUserName().equals(ANONYMOUS_VALUE)) {
+            if (user.getUserName().equals(ANONYMOUS_NAME)) {
                 game = new GameEntity(user);
                 model.addAttribute("game", game);
             } else {
@@ -49,20 +50,23 @@ public class GameController {
 
         model.addAttribute("game", game);
 
-        List<CountryEntity> countries = new ArrayList<>();
 //        List<CountryEntity> countries = countryRepository.findRandom3CountriesForOneGame(game.getId());
+
+        CountryCreateDTO countryForm = new CountryCreateDTO();
+
+        List<String> capitals = new ArrayList<>();
 
         CountryEntity c1 = countryRepository.findCountryById(1L);
         CountryEntity c2 = countryRepository.findCountryById(2L);
         CountryEntity c3 = countryRepository.findCountryById(3L);
-        countries.add(c1);
-        countries.add(c2);
-        countries.add(c3);
+        countryForm.addCountry(c1);
+        countryForm.addCountry(c2);
+        countryForm.addCountry(c3);
 
 
-        model.addAttribute("countries", countries);
+        model.addAttribute("countryForm", countryForm);
 
-        if (countries.isEmpty()) {
+        if (countryForm.getCountries().isEmpty()) {
             return "game/win";
         } else {
             return "game/form01";

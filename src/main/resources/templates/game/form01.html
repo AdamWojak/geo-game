@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>GEO-QUIZ</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link  rel="stylesheet" type="text/css" th:href="@{/css/styleForm.css}" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styleForm.css}"/>
     <!--<script type="text/javascript" src="<c:url value='/assets/js/form.js'/>"></script>-->
 
 </head>
@@ -30,18 +30,17 @@
 
     <div class="main">
         <h1>GEO-QUIZ: Państwa - Stolice</h1>
-        <h2 th:text="'Użytkowniku '+${user.userName}+' podaj stolicę danego państwa:'"> </h2>
+        <h2 th:text="'Użytkowniku '+${user.userName}+' podaj stolicę danego państwa:'"></h2>
 
-
-        <form action="#" th:action="@{/game/form}" th:object="${countries}" method="post">
+        <form action="#" th:action="@{/game/form}" th:object="${countryForm}" method="post">
             <table>
-                <th:block th:each="country : ${countries}">
+                <th:block th:each="country, itemStat : *{countries}">
                     <tr>
                         <td th:text="${country.countryName}"></td>
                         <td>-</td>
-                        <!--todo-->
+                        <td><input th:field="*{guessedCapital}" type="text" placeholder="stolica"/></td>
+                        <!--<td><input th:field="*{countries[__${itemStat.index}__].capital}" type="text" placeholder="stolica"></td>-->
                         <!--https://www.baeldung.com/thymeleaf-list-->
-                        <!--<td><input th:field="*{capital}" type="text" placeholder="stolica"></td>-->
                     </tr>
                 </th:block>
                 <!--  	<tr>
@@ -53,15 +52,15 @@
             </table>
         </form>
 
+
         <div class="center margin-top">
             <p th:text="'Liczba punktów: '+ ${game.amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp;Liczba prób:'+${game.amountOfAttempts}"></p>
-            <!--<h2 th:text="'Użytkowniku '+${game.amountOfPoints}+' podaj stolicę danego państwa:'+"> </h2>-->
         </div>
     </div>
 
     <div id="footer">
-        <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; |	&nbsp;&nbsp;
-        <a href="saved"> Wczytaj grę </a> &nbsp;&nbsp; |	&nbsp;&nbsp;
+        <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="end"> Koniec </a>
@@ -71,3 +70,25 @@
 </div>
 </body>
 </html>
+
+
+<!--CZEMU NIE DZIAŁA TEN KOD:-->
+<!--<form action="#" th:action="@{/game/form}" th:object="${countryForm}" method="post">-->
+<!--<table>-->
+<!--<th:block th:each="country : ${countries}">-->
+<!--<tr>-->
+<!--<td th:text="${country.countryName}"></td>-->
+<!--<td>-</td>-->
+<!--<td><input th:field="*{guessedCapital}" type="text" placeholder="stolica"/></td>-->
+<!--&lt;!&ndash;<td><input th:field="*{countries[__${itemStat.index}__].capital}" type="text" placeholder="stolica"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;https://www.baeldung.com/thymeleaf-list&ndash;&gt;-->
+<!--</tr>-->
+<!--</th:block>-->
+<!--&lt;!&ndash;  	<tr>-->
+<!--<td colspan="3"><input type="hidden" name="id_game">  </td>-->
+<!--</tr> &ndash;&gt;-->
+<!--<tr>-->
+<!--<td colspan="3"><input type="submit" value="Sprawdź"></td>-->
+<!--</tr>-->
+<!--</table>-->
+<!--</form>-->
