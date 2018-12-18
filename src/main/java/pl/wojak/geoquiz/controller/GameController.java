@@ -50,7 +50,7 @@ public class GameController {
 
         model.addAttribute("game", game);
 
-//        List<CountryEntity> countries = countryRepository.findRandom3CountriesForOneGame(game.getId());
+        List<CountryEntity> countries = countryRepository.findRandom3Countries();
 
         CountryCreateDTO countryForm = new CountryCreateDTO();
 
