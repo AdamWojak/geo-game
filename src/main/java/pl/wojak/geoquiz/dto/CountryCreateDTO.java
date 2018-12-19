@@ -3,7 +3,6 @@ package pl.wojak.geoquiz.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import pl.wojak.geoquiz.entity.CountryEntity;
 
 import java.util.ArrayList;
@@ -15,9 +14,10 @@ import java.util.List;
 public class CountryCreateDTO {
 
     private List<CountryEntity> countries;
-    private String guessedCapital;
+    private List<String> guessedCapitals;
+    private List<Boolean> result;
 
-    public CountryCreateDTO(){
+    public CountryCreateDTO() {
         this.countries = new ArrayList<>();
     }
 
