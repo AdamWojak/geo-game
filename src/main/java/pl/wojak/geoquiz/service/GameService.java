@@ -18,7 +18,7 @@ public class GameService {
 
 
 
-    private final GameRepository gameRepository;
+    public final GameRepository gameRepository;
     private final CountryRepository countryRepository;
 
 

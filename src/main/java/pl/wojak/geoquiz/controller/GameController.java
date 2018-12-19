@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.wojak.geoquiz.dto.CountryCreateDTO;
+import pl.wojak.geoquiz.entity.GameEntity;
 import pl.wojak.geoquiz.entity.UserEntity;
 import pl.wojak.geoquiz.repository.CountryRepository;
 import pl.wojak.geoquiz.service.GameService;
@@ -36,5 +38,15 @@ public class GameController {
         }
     }
 
+    public String countriesCorrect(@ModelAttribute("countryForm") CountryCreateDTO countryForm, Model model, HttpSession ses) {
+
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        GameEntity game = (GameEntity) ses.getAttribute("game");
+
+//        if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
+////            game = gameService;
+//        }
+        return "test";
+    }
 
 }
