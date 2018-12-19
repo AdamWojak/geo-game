@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pl.wojak.geoquiz.constant.ANONYMOUS_EMAIL;
+import static pl.wojak.geoquiz.constant.ANONYMOUS_PASSWORD;
+
 @Entity
 @Table(name = "user", schema = "geo_schema")
 @Data
@@ -17,10 +20,6 @@ import java.util.List;
 @NoArgsConstructor
 public class UserEntity {
 
-    @Transient
-    private static final String ANONYMOUS_PASSWORD = "123123";
-    @Transient
-    private static final String ANONYMOUS_EMAIL = "anonymous@anonymous.pl";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

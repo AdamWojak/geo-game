@@ -11,13 +11,16 @@ import pl.wojak.geoquiz.repository.GameRepository;
 
 import java.util.List;
 
+import static pl.wojak.geoquiz.constant.ANONYMOUS_NAME;
+
 @Service
 public class GameService {
 
-    private final String ANONYMOUS_NAME = "Anonymous";
+
 
     private final GameRepository gameRepository;
     private final CountryRepository countryRepository;
+
 
     public GameService(GameRepository gameRepository, CountryRepository countryRepository) {
         this.gameRepository = gameRepository;
@@ -27,8 +30,8 @@ public class GameService {
     public CountryCreateDTO newGame(Model model, UserEntity user) {
         GameEntity game = new GameEntity();
         if (user == null) {
-            UserEntity anonymous = new UserEntity(ANONYMOUS_NAME);
-            model.addAttribute("user", anonymous);
+            UserEntity noone = new UserEntity();
+            model.addAttribute("user", noone);
         } else {
             game = new GameEntity(user);
             if (!user.getUserName().equals(ANONYMOUS_NAME)) {

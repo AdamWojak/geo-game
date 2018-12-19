@@ -22,7 +22,6 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
-    private final String ANONYMOUS_NAME = "Anonymous";
 
     @GetMapping("/newgame")
     public String newGame(Model model, HttpSession ses) {

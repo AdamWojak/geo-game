@@ -10,12 +10,13 @@ import pl.wojak.geoquiz.repository.UserRepository;
 
 import javax.servlet.http.HttpSession;
 
+import static pl.wojak.geoquiz.constant.ANONYMOUS_NAME;
+
 @Controller
 @SessionAttributes("user")
 public class HomeController {
 
 
-    private final String ANONYMOUS_NAME = "Anonymous";
 
     @Autowired
     UserRepository userRepository;
