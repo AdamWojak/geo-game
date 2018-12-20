@@ -28,8 +28,7 @@ public class HomeController {
 
         UserEntity user = (UserEntity) ses.getAttribute("user");
         if (user == null) {
-            user = new UserEntity();
-            user.setUserName(ANONYMOUS_NAME);
+            user = new UserEntity(ANONYMOUS_NAME);
         }
 //        UserEntity user = userRepository.findById(1L).orElseThrow(null);
         model.addAttribute("user", user);

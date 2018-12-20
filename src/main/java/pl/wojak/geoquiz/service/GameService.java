@@ -41,16 +41,15 @@ public class GameService implements CrudService<GameEntity> {
 
 
     public CountryFormDTO newGame(Model model, UserEntity user) {
-        GameEntity game = new GameEntity();
-        if (user == null) {
+        if (user == null || user.getUserName() == null) {
             user = new UserEntity(ANONYMOUS_NAME);
             model.addAttribute("user", user);
-        } else {
-            game = new GameEntity(user);
-            if (!user.getUserName().equals(ANONYMOUS_NAME)) {
-                gameRepository.save(game);
-            }
         }
+        GameEntity game = new GameEntity(user);
+        if (!user.getUserName().equals(ANONYMOUS_NAME)) {
+            gameRepository.save(game);
+        }
+
 
         List<CountryDTO> countriesDTO = findRandom3Countries();
         CountryFormDTO countryForm = new CountryFormDTO(countriesDTO);
