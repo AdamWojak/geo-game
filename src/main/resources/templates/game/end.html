@@ -28,7 +28,7 @@
 
     <div id="main">
         <h1>GRA GEO-QUIZ: Państwa - Stolice</h1>
-        <h1>${user.userName} Dzięki za grę!</h1>
+        <h1 th:text="${user.userName} + ' Dzięki za grę!'"> </h1>
         <br> <br>
         <div class="center">
             <!-- source: https://d.wpimg.pl/492663152-1119541322/hubert-urbanski.jpg -->
@@ -46,8 +46,7 @@
         </div>
 
         <div class="center margin-top">
-            Liczba punktów: ${game.amountOfPoints} &nbsp;&nbsp; | &nbsp;&nbsp;
-            Liczba prób: ${game.amountOfAttempts}
+            <p th:text="'Liczba punktów: '+ ${game.amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp;Liczba prób:'+${game.amountOfAttempts}"></p>
         </div>
     </div>
 

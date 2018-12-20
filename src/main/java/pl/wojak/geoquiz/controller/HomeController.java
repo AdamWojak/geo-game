@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import static pl.wojak.geoquiz.constant.ANONYMOUS_NAME;
 
 @Controller
-@SessionAttributes("user")
+@SessionAttributes({"user", "game"})
 public class HomeController {
 
 
@@ -38,7 +38,7 @@ public class HomeController {
     }
 
     @RequestMapping("/game/end")
-    public String end() {
+    public String end(Model model) {
 
         System.out.println("test");
         return "game/end";
