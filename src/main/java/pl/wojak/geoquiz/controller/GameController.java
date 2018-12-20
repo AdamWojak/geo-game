@@ -4,11 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.wojak.geoquiz.dto.CountryDTO;
 import pl.wojak.geoquiz.dto.CountryFormDTO;
+import pl.wojak.geoquiz.entity.CountryEntity;
 import pl.wojak.geoquiz.entity.GameEntity;
 import pl.wojak.geoquiz.entity.GuessedEntity;
 import pl.wojak.geoquiz.entity.UserEntity;
 import pl.wojak.geoquiz.repository.CountryRepository;
+import pl.wojak.geoquiz.repository.GameRepository;
+import pl.wojak.geoquiz.repository.GuessedRepository;
 import pl.wojak.geoquiz.service.GameService;
 
 import javax.servlet.http.HttpSession;
@@ -27,6 +31,12 @@ public class GameController {
 
     @Autowired
     private GameService gameService;
+
+    @Autowired
+    GameRepository gameRepository;
+
+    @Autowired
+    GuessedRepository guessedRepository;
 
 
     @GetMapping("/newgame")
@@ -58,20 +68,34 @@ public class GameController {
         int amountOfPoints = 0;
         int amountOfAttempts = 0;
 
-//        for (int i = 0; i < countryForm.getFormCountriesDTO().size(); i++) {
-//            String cap = countryForm.getFormCountriesDTO().get(i).getCapital();
-//            if (cap.equals(countryForm.getgetGuessedCapital().get(i))) {
-//                result.add("TAK");
-//                amountOfPoints++;
-//                amountOfAttempts++;
-//                Guessed guess = new Guessed(game, formCountriesDTO.get(i));
-//                guessed.add(guess);
-//            } else {
-//                result.add("NIE");
-//                amountOfAttempts++;
-//            }
-//
-//        }
+        List<CountryDTO> countriesDTO = countryForm.getFormCountriesDTO();
+
+        for (int i = 0; i < countriesDTO.size(); i++) {
+            String cap = countriesDTO.get(i).getCapital();
+            if (cap.equals(countriesDTO.get(i).getGuessedCapital())) {
+                countriesDTO.get(i).setResult(true);
+                amountOfPoints++;
+                amountOfAttempts++;
+                CountryEntity countryEntity = countryRepository.findById(countriesDTO.get(i).getId()).orElseThrow(NullPointerException::new);
+                GuessedEntity guess = new GuessedEntity(game, countryEntity);
+                guessed.add(guess);
+            } else {
+                countriesDTO.get(i).setResult(false);
+                amountOfAttempts++;
+            }
+
+        }
+
+        game.setAmountOfPoints(game.getAmountOfPoints() + amountOfPoints);
+        game.setAmountOfAttempts(game.getAmountOfAttempts() + amountOfAttempts);
+
+        if (user.getUserName().equals(ANONYMOUS_NAME)) {
+            model.addAttribute("game", game);
+            model.addAttribute("guessed", guessed);
+        } else {
+            guessedRepository.saveAll(guessed);
+            gameRepository.save(game);
+        }
 
         model.addAttribute("countryForm", countryForm);
         model.addAttribute("amountOfPoints", amountOfPoints);

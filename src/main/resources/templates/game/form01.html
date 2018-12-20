@@ -32,19 +32,18 @@
         <h1>GEO-QUIZ: Państwa - Stolice</h1>
         <h2 th:text="'Użytkowniku '+${user.userName}+' podaj stolicę danego państwa:'"></h2>
 
+
         <form action="#" th:action="@{/game/form}" th:object="${countryForm}" method="post">
             <table>
                 <th:block th:each="country, itemStat : *{formCountriesDTO}">
                     <tr>
                         <td th:text="${country.countryName}"></td>
                         <td>-</td>
-                        <!--<td><input th:field="*{guessedCapital}" type="text" placeholder="stolica"/></td>-->
-                        <!--<td><input th:field="*{formCountriesDTO[__${itemStat.index}__].capital}" type="text" placeholder="stolica"></td>-->
-                        <!--https://www.baeldung.com/thymeleaf-list-->
+                        <td><input th:field="*{formCountriesDTO[__${itemStat.index}__].guessedCapital}" type="text" placeholder="stolica"></td>
                     </tr>
                 </th:block>
                 <!--  	<tr>
-                    <td colspan="3"><input type="hidden" name="id_game">  </td>
+                <td colspan="3"><input type="hidden" name="id_game">  </td>
                 </tr> -->
                 <tr>
                     <td colspan="3"><input type="submit" value="Sprawdź"></td>
@@ -71,62 +70,3 @@
 </body>
 </html>
 
-
-
-
-
-
-
-
-
-<!--<form action="#" th:action="@{/game/form}" th:object="${countryForm}" method="post">-->
-    <!--<table>-->
-        <!--<th:block th:each="country, itemStat : *{formCountriesDTO}">-->
-            <!--<tr>-->
-                <!--<td th:text="${country.countryName}"></td>-->
-                <!--<td>-</td>-->
-                <!--<td><input th:field="${coutry.guessedCapital}" type="text" placeholder="stolica"/></td>-->
-                <!--&lt;!&ndash;<td><input th:field="*{formCountriesDTO[__${itemStat.index}__].capital}" type="text" placeholder="stolica"></td>&ndash;&gt;-->
-                <!--&lt;!&ndash;https://www.baeldung.com/thymeleaf-list&ndash;&gt;-->
-            <!--</tr>-->
-        <!--</th:block>-->
-        <!--&lt;!&ndash;  	<tr>-->
-            <!--<td colspan="3"><input type="hidden" name="id_game">  </td>-->
-        <!--</tr> &ndash;&gt;-->
-        <!--<tr>-->
-            <!--<td colspan="3"><input type="submit" value="Sprawdź"></td>-->
-        <!--</tr>-->
-    <!--</table>-->
-<!--</form>-->
-
-
-
-
-
-
-
-
-
-
-
-
-<!--CZEMU NIE DZIAŁA TEN KOD:-->
-<!--<form action="#" th:action="@{/game/form}" th:object="${countryForm}" method="post">-->
-<!--<table>-->
-<!--<th:block th:each="country : ${formCountriesDTO}">-->
-<!--<tr>-->
-<!--<td th:text="${country.countryName}"></td>-->
-<!--<td>-</td>-->
-<!--<td><input th:field="*{guessedCapital}" type="text" placeholder="stolica"/></td>-->
-<!--&lt;!&ndash;<td><input th:field="*{formCountriesDTO[__${itemStat.index}__].capital}" type="text" placeholder="stolica"></td>&ndash;&gt;-->
-<!--&lt;!&ndash;https://www.baeldung.com/thymeleaf-list&ndash;&gt;-->
-<!--</tr>-->
-<!--</th:block>-->
-<!--&lt;!&ndash;  	<tr>-->
-<!--<td colspan="3"><input type="hidden" name="id_game">  </td>-->
-<!--</tr> &ndash;&gt;-->
-<!--<tr>-->
-<!--<td colspan="3"><input type="submit" value="Sprawdź"></td>-->
-<!--</tr>-->
-<!--</table>-->
-<!--</form>-->

@@ -71,6 +71,10 @@ public class GameService implements CrudService<GameEntity> {
         return new CountryDTO(c.getId(), c.getContinent(), c.getCountryName(), c.getCapital(), null, null);
     }
 
+//    private List<CountryEntity> toEntity(List<CountryDTO> countryDTO) {
+//        countryDTO.stream().map(this::toEntity).collect(Collectors.toList());
+//    }
+
 }
 
 

@@ -2,11 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Graj dalej!</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link  rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}"/>
 </head>
 <body>
-
 
 
 <div class="container">
@@ -46,18 +45,21 @@
                         <td th:text="${country.capital}"></td>
                         <!--<td th:text="*{formCountriesDTO[__${itemStat.index}__].capital}" type="text"></td>-->
                         <td th:text="*{formCountriesDTO[__${itemStat.index}__].guessedCapital}"></td>
-                        <td th:text="*{result}"></td>
+                        <td th:text="*{formCountriesDTO[__${itemStat.index}__].result}"></td>
                         <!--https://www.baeldung.com/thymeleaf-list-->
                     </tr>
                 </th:block>
+            </table>
+
+        </form>
+
+        <div class="center margin-top">
+            <p th:text="'Liczba punktów: '+ ${game.amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp;Liczba prób:'+${game.amountOfAttempts}"></p>
+        </div>
+    </div>
 
 
-
-
-
-
-
-                <div id="footer">
+    <div id="footer">
         <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
@@ -67,5 +69,5 @@
     </div>
 
 
-    </div>
+</div>
 </body>

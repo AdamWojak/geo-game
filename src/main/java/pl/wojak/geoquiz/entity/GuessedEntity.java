@@ -25,4 +25,9 @@ public class GuessedEntity {
     @OneToOne()
     @JoinColumn(name = "country_id")
     private CountryEntity country;
+
+    public GuessedEntity(GameEntity game, CountryEntity country) {
+        this.game = game;
+        this.country = country;
+    }
 }
