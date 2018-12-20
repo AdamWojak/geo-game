@@ -7,9 +7,11 @@ import pl.wojak.geoquiz.dto.CountryDTO;
 import pl.wojak.geoquiz.dto.CountryFormDTO;
 import pl.wojak.geoquiz.entity.CountryEntity;
 import pl.wojak.geoquiz.entity.GameEntity;
+import pl.wojak.geoquiz.entity.GuessedEntity;
 import pl.wojak.geoquiz.entity.UserEntity;
 import pl.wojak.geoquiz.repository.CountryRepository;
 import pl.wojak.geoquiz.repository.GameRepository;
+import pl.wojak.geoquiz.repository.GuessedRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +25,20 @@ public class GameService implements CrudService<GameEntity> {
 
     private final GameRepository gameRepository;
     private final CountryRepository countryRepository;
+    private final GuessedRepository guessedRepository;
 
 
-    public GameService(GameRepository gameRepository, CountryRepository countryRepository) {
+    public GameService(GameRepository gameRepository, CountryRepository countryRepository, GuessedRepository guessedRepository) {
         this.gameRepository = gameRepository;
         this.countryRepository = countryRepository;
+        this.guessedRepository = guessedRepository;
     }
 
     @Override
     public CrudRepository<GameEntity, Long> getRepository() {
         return null;
     }
+
 
     public CountryFormDTO newGame(Model model, UserEntity user) {
         GameEntity game = new GameEntity();
@@ -52,18 +57,27 @@ public class GameService implements CrudService<GameEntity> {
 
         model.addAttribute("countryForm", countryForm);
         model.addAttribute("game", game);
-
         return countryForm;
     }
 
-    private List<CountryDTO> findRandom3Countries() {
+    public List<CountryDTO> game(UserEntity user, GameEntity game, Model model) {
 
+        if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
+            game = gameRepository.findById(game.getId()).orElseThrow(NullPointerException::new);
+        }
+        model.addAttribute("game", game);
+        List<CountryDTO> countriesDTO = findRandom3Countries();
+        CountryFormDTO countryForm = new CountryFormDTO(countriesDTO);
+
+        model.addAttribute("countryForm", countryForm);
+        return countriesDTO;
+    }
+
+    private List<CountryDTO> findRandom3Countries() {
         List<CountryDTO> countriesDTO = new ArrayList<>();
         List<CountryEntity> countries = countryRepository.findRandom3Countries();
 
         countriesDTO.addAll(countries.stream().map(this::apply).collect(Collectors.toList()));
-
-
         return countriesDTO;
     }
 
@@ -71,9 +85,42 @@ public class GameService implements CrudService<GameEntity> {
         return new CountryDTO(c.getId(), c.getContinent(), c.getCountryName(), c.getCapital(), null, null);
     }
 
-//    private List<CountryEntity> toEntity(List<CountryDTO> countryDTO) {
-//        countryDTO.stream().map(this::toEntity).collect(Collectors.toList());
-//    }
+
+    public void checkForm(UserEntity user, GameEntity game, CountryFormDTO countryForm, Model model) {
+        if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
+            game = gameRepository.findById(game.getId()).orElse(null);
+        }
+
+        List<CountryDTO> countriesDTO = countryForm.getFormCountriesDTO();
+        List<GuessedEntity> guessed = new ArrayList<>();
+        int amountOfPoints = 0;
+        int amountOfAttempts = 0;
+
+        for (CountryDTO country : countriesDTO) {
+            if (country.getCapital().equals(country.getGuessedCapital())) {
+                country.setResult(true);
+                amountOfPoints++;
+                amountOfAttempts++;
+                CountryEntity countryEntity = countryRepository.findById(country.getId()).orElseThrow(NullPointerException::new);
+                guessed.add(new GuessedEntity(game, countryEntity));
+            } else {
+                country.setResult(false);
+                amountOfAttempts++;
+            }
+        }
+        game.setAmountOfPoints(game.getAmountOfPoints() + amountOfPoints);
+        game.setAmountOfAttempts(game.getAmountOfAttempts() + amountOfAttempts);
+
+        if (user.getUserName().equals(ANONYMOUS_NAME)) {
+            model.addAttribute("guessed", guessed);
+        } else {
+            guessedRepository.saveAll(guessed);
+            gameRepository.save(game);
+        }
+        model.addAttribute("amountOfPoints", amountOfPoints);
+        model.addAttribute("amountOfAttempts", amountOfAttempts);
+    }
+
 
 }
 

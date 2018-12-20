@@ -39,6 +39,8 @@ public class HomeController {
 
     @RequestMapping("/game/end")
     public String end() {
+
+        System.out.println("test");
         return "game/end";
     }
 

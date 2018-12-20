@@ -14,12 +14,12 @@
 
     <div class="login" th:switch="${user.userName}">
         <span th:case="'Anonymous'">
-            <a href="user/login"> Zaloguj </a> &nbsp; || &nbsp;
-            <a href="user/register"> Zarejestruj się </a>
+            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
+            <a href="../user/register"> Zarejestruj się </a>
         </span>
         <span th:case="null">
-            <a href="user/login"> Zaloguj </a> &nbsp; || &nbsp;
-            <a href="user/register"> Zarejestruj się </a>
+            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
+            <a href="../user/register"> Zarejestruj się </a>
         </span>
         <span th:case="*">
             <span th:text="${user.userName}+ '&nbsp;||&nbsp;'" th:remove="tag"></span>
