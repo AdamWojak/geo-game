@@ -43,19 +43,22 @@
                     <tr>
                         <td th:text="${country.countryName}"></td>
                         <td th:text="${country.capital}"></td>
-                        <!--<td th:text="*{formCountriesDTO[__${itemStat.index}__].capital}" type="text"></td>-->
                         <td th:text="*{formCountriesDTO[__${itemStat.index}__].guessedCapital}"></td>
                         <td th:text="*{formCountriesDTO[__${itemStat.index}__].result}"></td>
                         <!--https://www.baeldung.com/thymeleaf-list-->
                     </tr>
                 </th:block>
-
+                <tr>
+                    <td colspan="4" class="amounts center">
+                        <p th:text="'Liczba punktów: '+ ${amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp; Liczba prób:'+${amountOfAttempts}"></p>
+                    </td>
+                </tr>
             </table>
 
         </form>
 
         <div class="center margin-top">
-            <p th:text="'Liczba punktów: '+ ${game.amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp;Liczba prób:'+${game.amountOfAttempts}"></p>
+            <p th:text="'Całkowita liczba punktów: '+ ${game.amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp; Całkowita liczba prób:'+${game.amountOfAttempts}"></p>
         </div>
         <div class="options margin-top">
             <h2>

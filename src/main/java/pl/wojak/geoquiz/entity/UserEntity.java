@@ -32,7 +32,7 @@ public class UserEntity {
 
     private String password;
 
-    @Transient // this annotation cause there won't be such column in database
+    @Transient
     private String verifiedPassword;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -43,15 +43,8 @@ public class UserEntity {
         this.email = ANONYMOUS_EMAIL;
         this.password = ANONYMOUS_PASSWORD;
         GameEntity game = new GameEntity();
-//        games = new ArrayList<>();
         games.add(game);
     }
 
-
 }
 
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "zad_zadania_seq")
-//    @SequenceGenerator(name = "zad_zadania_seq", sequenceName = "zad_zadania_s", allocationSize = ALLOCATION_SIZE)
-//    private Long id;

@@ -2,11 +2,9 @@ package pl.wojak.geoquiz.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "game", schema = "geo_schema")

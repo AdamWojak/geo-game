@@ -89,9 +89,21 @@ public class GameService implements CrudService<GameEntity> {
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game = gameRepository.findById(game.getId()).orElse(null);
         }
-
         List<CountryDTO> countriesDTO = countryForm.getFormCountriesDTO();
         List<GuessedEntity> guessed = new ArrayList<>();
+
+        setAmountOfPointsAndAttempts(model, game, countriesDTO, guessed);
+
+        if (user.getUserName().equals(ANONYMOUS_NAME)) {
+            model.addAttribute("guessed", guessed);
+        } else {
+            guessedRepository.saveAll(guessed);
+            gameRepository.save(game);
+        }
+    }
+
+
+    private void setAmountOfPointsAndAttempts(Model model, GameEntity game, List<CountryDTO> countriesDTO, List<GuessedEntity> guessed){
         int amountOfPoints = 0;
         int amountOfAttempts = 0;
 
@@ -110,17 +122,10 @@ public class GameService implements CrudService<GameEntity> {
         game.setAmountOfPoints(game.getAmountOfPoints() + amountOfPoints);
         game.setAmountOfAttempts(game.getAmountOfAttempts() + amountOfAttempts);
 
-        if (user.getUserName().equals(ANONYMOUS_NAME)) {
-            model.addAttribute("guessed", guessed);
-        } else {
-            guessedRepository.saveAll(guessed);
-            gameRepository.save(game);
-        }
+        model.addAttribute("game", game);
         model.addAttribute("amountOfPoints", amountOfPoints);
         model.addAttribute("amountOfAttempts", amountOfAttempts);
     }
-
-
 }
 
 
