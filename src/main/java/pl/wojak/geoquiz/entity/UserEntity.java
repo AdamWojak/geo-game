@@ -35,15 +35,15 @@ public class UserEntity {
     @Transient // this annotation cause there won't be such column in database
     private String verifiedPassword;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<GameEntity> games;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<GameEntity> games = new ArrayList<>();
 
     public UserEntity(String userName) {
         this.userName = userName;
         this.email = ANONYMOUS_EMAIL;
         this.password = ANONYMOUS_PASSWORD;
         GameEntity game = new GameEntity();
-        games = new ArrayList<>();
+//        games = new ArrayList<>();
         games.add(game);
     }
 
