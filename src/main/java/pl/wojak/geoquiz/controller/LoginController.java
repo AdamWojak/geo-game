@@ -50,7 +50,6 @@ public class LoginController {
 
     @GetMapping("/logout")
     public String logout(Model model) {
-        System.out.println("test");
         return "user/logout";
     }
 

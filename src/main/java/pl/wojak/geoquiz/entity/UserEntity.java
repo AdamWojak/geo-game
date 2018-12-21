@@ -6,19 +6,21 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static pl.wojak.geoquiz.constant.ANONYMOUS_EMAIL;
+import static pl.wojak.geoquiz.constant.ANONYMOUS_PASSWORD;
 
 @Entity
 @Table(name = "user", schema = "geo_schema")
 @Data
-@ToString
+@ToString(exclude = "games")
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity {
 
 
-    //    todo poczytać z generated value:
-// org.postgresql.util.PSQLException: BŁĄD: podwójna wartość klucza narusza ograniczenie unikalności "user_pkey"
-//    Szczegóły: Klucz (id)=(1) już istnieje.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,19 +30,21 @@ public class UserEntity {
 
     private String email;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private Set<GameEntity> games;
-
     private String password;
 
-    @Transient // this annotation cause there won't be such column in database
+    @Transient
     private String verifiedPassword;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<GameEntity> games = new ArrayList<>();
+
+    public UserEntity(String userName) {
+        this.userName = userName;
+        this.email = ANONYMOUS_EMAIL;
+        this.password = ANONYMOUS_PASSWORD;
+        GameEntity game = new GameEntity();
+        games.add(game);
+    }
 
 }
 
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "zad_zadania_seq")
-//    @SequenceGenerator(name = "zad_zadania_seq", sequenceName = "zad_zadania_s", allocationSize = ALLOCATION_SIZE)
-//    private Long id;

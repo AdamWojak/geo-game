@@ -2,7 +2,6 @@ package pl.wojak.geoquiz.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -12,11 +11,10 @@ import javax.persistence.*;
 @Data
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
 public class GameEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "amount_of_points")
@@ -28,4 +26,16 @@ public class GameEntity {
     @ManyToOne()
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+
+    public GameEntity() {
+        this.amountOfPoints = 0;
+        this.amountOfAttempts = 0;
+    }
+
+    public GameEntity(UserEntity user) {
+        this.amountOfPoints = 0;
+        this.amountOfAttempts = 0;
+        this.user = user;
+    }
 }

@@ -8,27 +8,25 @@
 <body>
 <div id="container">
 
-    <!--<div id="login">-->
-    <!--<c:choose>-->
-    <!--<c:when test="${user.userName =='anonymous'}">-->
-    <!--<a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;-->
-    <!--<a href="../user/register"> Zarejestruj się </a>-->
-    <!--</c:when>-->
-    <!--<c:when test="${empty user.userName}">-->
-    <!--<a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;-->
-    <!--<a href="../user/register"> Zarejestruj się </a>-->
-    <!--</c:when>-->
-    <!--<c:otherwise>-->
-    <!--${user.userName} &nbsp; || &nbsp;-->
-    <!--<a href="../user/logout"> (Wyloguj) </a>-->
-    <!--</c:otherwise>-->
-    <!--</c:choose>-->
-    <!--</div>-->
+    <div class="login" th:switch="${user.userName}">
+        <span th:case="'Anonymous'">
+            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
+            <a href="../user/register"> Zarejestruj się </a>
+        </span>
+        <span th:case="null">
+            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
+            <a href="../user/register"> Zarejestruj się </a>
+        </span>
+        <span th:case="*">
+            <span th:text="${user.userName}+ '&nbsp;||&nbsp;'" th:remove="tag"></span>
+            <a href="../user/logout"> (Wyloguj) </a>
+        </span>
+    </div>
 
 
     <div id="main">
         <h1>GRA GEO-QUIZ: Państwa - Stolice</h1>
-        <h1>${user.userName} Dzięki za grę!</h1>
+        <h1 th:text="${user == null} ? ' Dzięki za grę!': ${user.userName} + ' Dzięki za grę!'"> </h1>
         <br> <br>
         <div class="center">
             <!-- source: https://d.wpimg.pl/492663152-1119541322/hubert-urbanski.jpg -->
@@ -46,8 +44,7 @@
         </div>
 
         <div class="center margin-top">
-            Liczba punktów: ${game.amountOfPoints} &nbsp;&nbsp; | &nbsp;&nbsp;
-            Liczba prób: ${game.amountOfAttempts}
+            <p th:text="${game == null} ? '' : 'Liczba punktów: '+ ${game.amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp;Liczba prób:'+${game.amountOfAttempts}"></p>
         </div>
     </div>
 
