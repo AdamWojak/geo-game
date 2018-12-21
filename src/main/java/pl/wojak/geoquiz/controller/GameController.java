@@ -73,4 +73,20 @@ public class GameController {
         return "game/form02";
     }
 
+
+    public String showAllGamesByUserName(Model model, HttpSession ses) {
+
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        GameEntity game = (GameEntity) ses.getAttribute("game");
+        if (user == null) {
+            return "game/noSavedGames";
+        } else {
+            gameService.createListOfSavedGames(user, game, model);
+        }
+        return "game/saved";
+
+
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package pl.wojak.geoquiz.service;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -122,6 +123,22 @@ public class GameService implements CrudService<GameEntity> {
         model.addAttribute("game", game);
         model.addAttribute("amountOfPoints", amountOfPoints);
         model.addAttribute("amountOfAttempts", amountOfAttempts);
+    }
+
+    public List<GameEntity> createListOfSavedGames(UserEntity user, GameEntity game, Model model){
+        List<GameEntity> games = new ArrayList<>();
+
+        if (user.getUserName().equals(ANONYMOUS_NAME)) {
+            game.setId(1L);
+            games.add(game);
+        } else {
+            games = gameRepository.findAllByUserId(user.getId());
+            System.out.println("------------------------------"+user.getId());
+
+        }
+        model.addAttribute("games", games);
+
+        return games;
     }
 }
 

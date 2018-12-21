@@ -11,7 +11,7 @@
 <div id="container">
 
 
-    <div class="login" th:switch="${user.userName}">
+    <div id="login" th:switch="${user.userName}">
         <span th:case="'Anonymous'">
             <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
             <a href="../user/register"> Zarejestruj się </a>
@@ -45,7 +45,7 @@
         <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../funfact/all"> Ciekawostki </a>
     </div>
 
 </div>

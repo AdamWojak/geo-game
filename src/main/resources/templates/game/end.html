@@ -8,7 +8,7 @@
 <body>
 <div id="container">
 
-    <div class="login" th:switch="${user.userName}">
+    <div id="login" th:switch="${user.userName}">
         <span th:case="'Anonymous'">
             <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
             <a href="../user/register"> Zarejestruj się </a>
@@ -26,7 +26,7 @@
 
     <div id="main">
         <h1>GRA GEO-QUIZ: Państwa - Stolice</h1>
-        <h1 th:text="${user == null} ? ' Dzięki za grę!': ${user.userName} + ' Dzięki za grę!'"> </h1>
+        <h1 th:text="${user == null} ? ' Dzięki za grę!': ${user.userName} + ' Dzięki za grę!'"></h1>
         <br> <br>
         <div class="center">
             <!-- source: https://d.wpimg.pl/492663152-1119541322/hubert-urbanski.jpg -->
@@ -52,8 +52,7 @@
         <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="end"> Koniec </a>
+        <a href="../funfact/all"> Ciekawostki </a>
     </div>
 
 
