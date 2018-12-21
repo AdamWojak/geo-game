@@ -8,22 +8,20 @@
 <body>
 <div id="container">
 
-    <!--<div id="login">-->
-    <!--<c:choose>-->
-    <!--<c:when test="${user.userName =='anonymous'}">-->
-    <!--<a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;-->
-    <!--<a href="../user/register"> Zarejestruj się </a>-->
-    <!--</c:when>-->
-    <!--<c:when test="${empty user.userName}">-->
-    <!--<a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;-->
-    <!--<a href="../user/register"> Zarejestruj się </a>-->
-    <!--</c:when>-->
-    <!--<c:otherwise>-->
-    <!--${user.userName} &nbsp; || &nbsp;-->
-    <!--<a href="../user/logout"> (Wyloguj) </a>-->
-    <!--</c:otherwise>-->
-    <!--</c:choose>-->
-    <!--</div>-->
+    <div class="login" th:switch="${user.userName}">
+        <span th:case="'Anonymous'">
+            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
+            <a href="../user/register"> Zarejestruj się </a>
+        </span>
+        <span th:case="null">
+            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
+            <a href="../user/register"> Zarejestruj się </a>
+        </span>
+        <span th:case="*">
+            <span th:text="${user.userName}+ '&nbsp;||&nbsp;'" th:remove="tag"></span>
+            <a href="../user/logout"> (Wyloguj) </a>
+        </span>
+    </div>
 
 
     <div id="main">
@@ -46,7 +44,7 @@
         </div>
 
         <div class="center margin-top">
-            <p th:text="'Liczba punktów: '+ ${game.amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp;Liczba prób:'+${game.amountOfAttempts}"></p>
+            <p th:text="${game == null} ? '' : 'Liczba punktów: '+ ${game.amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp;Liczba prób:'+${game.amountOfAttempts}"></p>
         </div>
     </div>
 

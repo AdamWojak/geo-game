@@ -50,8 +50,7 @@ public class GameService implements CrudService<GameEntity> {
             gameRepository.save(game);
         }
 
-
-        List<CountryDTO> countriesDTO = findRandom3Countries();
+        List<CountryDTO> countriesDTO = findRandom3CountriesforOneGame(game);
         CountryFormDTO countryForm = new CountryFormDTO(countriesDTO);
 
         model.addAttribute("countryForm", countryForm);
@@ -64,17 +63,15 @@ public class GameService implements CrudService<GameEntity> {
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game = gameRepository.findById(game.getId()).orElseThrow(NullPointerException::new);
         }
+        List<CountryDTO> countriesDTO = findRandom3CountriesforOneGame(game);
         model.addAttribute("game", game);
-        List<CountryDTO> countriesDTO = findRandom3Countries();
-        CountryFormDTO countryForm = new CountryFormDTO(countriesDTO);
-
-        model.addAttribute("countryForm", countryForm);
+        model.addAttribute("countryForm", new CountryFormDTO(countriesDTO));
         return countriesDTO;
     }
 
-    private List<CountryDTO> findRandom3Countries() {
+    private List<CountryDTO> findRandom3CountriesforOneGame(GameEntity game) {
         List<CountryDTO> countriesDTO = new ArrayList<>();
-        List<CountryEntity> countries = countryRepository.findRandom3Countries();
+        List<CountryEntity> countries = countryRepository.findRandom3CountriesForOneGame(game.getId());
 
         countriesDTO.addAll(countries.stream().map(this::apply).collect(Collectors.toList()));
         return countriesDTO;
@@ -103,7 +100,7 @@ public class GameService implements CrudService<GameEntity> {
     }
 
 
-    private void setAmountOfPointsAndAttempts(Model model, GameEntity game, List<CountryDTO> countriesDTO, List<GuessedEntity> guessed){
+    private void setAmountOfPointsAndAttempts(Model model, GameEntity game, List<CountryDTO> countriesDTO, List<GuessedEntity> guessed) {
         int amountOfPoints = 0;
         int amountOfAttempts = 0;
 

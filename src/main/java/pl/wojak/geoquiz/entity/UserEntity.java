@@ -15,7 +15,7 @@ import static pl.wojak.geoquiz.constant.ANONYMOUS_PASSWORD;
 @Entity
 @Table(name = "user", schema = "geo_schema")
 @Data
-@ToString
+@ToString(exclude = "games")
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity {

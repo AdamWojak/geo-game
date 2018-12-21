@@ -2,7 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>GEO-QUIZ</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link  rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}"/>
 </head>
 <body>
+
+
+<div id="container">
+
+
+    <div class="login" th:switch="${user.userName}">
+        <span th:case="'Anonymous'">
+            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
+            <a href="../user/register"> Zarejestruj się </a>
+        </span>
+        <span th:case="null">
+            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
+            <a href="../user/register"> Zarejestruj się </a>
+        </span>
+        <span th:case="*">
+            <span th:text="${user.userName}+ '&nbsp;||&nbsp;'" th:remove="tag"></span>
+            <a href="../user/logout"> (Wyloguj) </a>
+        </span>
+    </div>
+
+
+    <div id="main">
+        <h1>GRA GEO-QUIZ: Państwa - Stolice</h1>
+        <br> <br>
+        <h1>GRATULACJE! UKOŃCZYŁEŚ GRĘ!</h1>
+
+        <div class="center margin-top">
+            <p th:text="${game == null} ? '' : 'Liczba punktów: '+ ${game.amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp;Liczba prób:'+${game.amountOfAttempts}"></p>
+        </div>
+    </div>
+
+    <h2>Dzięki!</h2>
+    <p>Adam Wojak</p>
+
+
+    <div id="footer">
+        <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+    </div>
+
+</div>
+</body>
+</html>

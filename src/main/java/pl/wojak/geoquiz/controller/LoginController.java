@@ -13,8 +13,6 @@ import pl.wojak.geoquiz.repository.UserRepository;
 
 import javax.validation.Valid;
 
-import static pl.wojak.geoquiz.constant.ANONYMOUS_NAME;
-
 @Controller
 @RequestMapping("/user")
 @SessionAttributes({"user", "game"})
@@ -52,7 +50,6 @@ public class LoginController {
 
     @GetMapping("/logout")
     public String logout(Model model) {
-        System.out.println("test");
         return "user/logout";
     }
 

@@ -38,8 +38,6 @@ public class HomeController {
 
     @RequestMapping("/game/end")
     public String end(Model model) {
-
-        System.out.println("test");
         return "game/end";
     }
 
