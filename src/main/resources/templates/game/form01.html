@@ -35,11 +35,11 @@
 
         <form action="#" th:action="@{/game/form}" th:object="${countryForm}" method="post">
             <table>
-                <th:block th:each="country, itemStat : *{formCountriesDTO}">
+                <th:block th:each="country, itemStat : *{countriesFormDTO}">
                     <tr>
                         <td th:text="${country.countryName}"></td>
                         <td>-</td>
-                        <td><input th:field="*{formCountriesDTO[__${itemStat.index}__].guessedCapital}" type="text" placeholder="stolica"></td>
+                        <td><input th:field="*{countriesFormDTO[__${itemStat.index}__].guessedCapital}" type="text" placeholder="stolica"></td>
                     </tr>
                 </th:block>
                 <!--  	<tr>

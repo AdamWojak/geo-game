@@ -40,7 +40,7 @@ public class GameController {
         model.addAttribute("user", user);
 
         CountryFormDTO countryForm = gameService.newGame(model, user);
-        if (countryForm.getFormCountriesDTO().isEmpty()) {
+        if (countryForm.getCountriesFormDTO().isEmpty()) {
             return "game/win";
         } else {
             return "game/form01";
@@ -73,7 +73,7 @@ public class GameController {
         return "game/form02";
     }
 
-
+    @RequestMapping("/saved")
     public String showAllGamesByUserName(Model model, HttpSession ses) {
 
         UserEntity user = (UserEntity) ses.getAttribute("user");

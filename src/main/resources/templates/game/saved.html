@@ -28,7 +28,7 @@
     <h1>GEO-QUIZ: Państwa - Stolice</h1>
     <table class="sav">
         <tr>
-            <th>Nr gracza:</th>
+            <!--<th>Nr gracza:</th>-->
             <th>Nr gry:</th>
             <th>Ilość punktów:</th>
             <th>Ilość prób:</th>
@@ -36,30 +36,31 @@
             <th>Akcja</th>
         </tr>
         <!--TODO DO ZROBIENIA TABELA-->
-        <th:block th:each="game :${games}" c:forEach items="${games}" var="game">
+        <th:block th:each="game :${games}">
             <tr>
-                <td>Gracz</td>
-                <td>${game.id}</td>
-                <td>${game.amountOfPoints}</td>
-                <td>${game.amountOfAttempts}</td>
+                <!--<td>Gracz</td>-->
+                <td th:text="${game.id}"> </td>
+                <td th:text="${game.amountOfPoints}"></td>
+                <td th:text="${game.amountOfAttempts}"></td>
                 <td>Data</td>
-
-                <td>
-                    <c:choose>
-                        <c:when test="${user.userName =='anonymous'}">
-                            <a class="noneDecoration" href="load?id=${game.id}">
-                                Wczytaj</a>
-                        </c:when>
-                        <c:otherwise>
-                            <a class="noneDecoration" href="load?id=${game.id}">
-                                Wczytaj</a> &nbsp; | &nbsp; <a class="noneDecoration"
-                                                               href="delete?id=${game.id}">Usuń</a>
-
-                        </c:otherwise>
-                    </c:choose>
+                <td >
+                    <span th:if="${user.userName =='Anonymous'}">
+                        <a class="noneDecoration" href="load?id=${game.id}">Wczytaj</a>
+                    </span>
+                    <span th:unless="${user.userName =='Anonymous'}">
+                        <a class="noneDecoration" href="load?id=${game.id}">Wczytaj</a>
+                        &nbsp; | &nbsp;
+                        <a class="noneDecoration" href="delete?id=${game.id}">Usuń</a>
+                    </span>
                 </td>
+
+
+
+                <!--</c:otherwise>-->
+                <!--</c:choose>-->
+                <!--</td>-->
             </tr>
-        </th:blockc:forEach>
+        </th:block>
     </table>
 
     <div id="footer">

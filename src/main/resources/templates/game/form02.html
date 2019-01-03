@@ -39,12 +39,12 @@
                     <th>TWOJA ODP:</th>
                     <th>POPRAWNIE:</th>
                 </tr>
-                <th:block th:each="country, itemStat : *{formCountriesDTO}">
+                <th:block th:each="country, itemStat : *{countriesFormDTO}">
                     <tr>
                         <td th:text="${country.countryName}"></td>
                         <td th:text="${country.capital}"></td>
-                        <td th:text="*{formCountriesDTO[__${itemStat.index}__].guessedCapital}"></td>
-                        <td th:text="*{formCountriesDTO[__${itemStat.index}__].result}"></td>
+                        <td th:text="*{countriesFormDTO[__${itemStat.index}__].guessedCapital}"></td>
+                        <td th:text="*{countriesFormDTO[__${itemStat.index}__].result}"></td>
                         <!--https://www.baeldung.com/thymeleaf-list-->
                     </tr>
                 </th:block>

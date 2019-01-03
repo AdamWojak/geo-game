@@ -1,6 +1,5 @@
 package pl.wojak.geoquiz.service;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -87,7 +86,7 @@ public class GameService implements CrudService<GameEntity> {
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game = gameRepository.findById(game.getId()).orElse(null);
         }
-        List<CountryDTO> countriesDTO = countryForm.getFormCountriesDTO();
+        List<CountryDTO> countriesDTO = countryForm.getCountriesFormDTO();
         List<GuessedEntity> guessed = new ArrayList<>();
 
         setAmountOfPointsAndAttempts(model, game, countriesDTO, guessed);
@@ -125,7 +124,7 @@ public class GameService implements CrudService<GameEntity> {
         model.addAttribute("amountOfAttempts", amountOfAttempts);
     }
 
-    public List<GameEntity> createListOfSavedGames(UserEntity user, GameEntity game, Model model){
+    public void createListOfSavedGames(UserEntity user, GameEntity game, Model model) {
         List<GameEntity> games = new ArrayList<>();
 
         if (user.getUserName().equals(ANONYMOUS_NAME)) {
@@ -133,19 +132,17 @@ public class GameService implements CrudService<GameEntity> {
             games.add(game);
         } else {
             games = gameRepository.findAllByUserId(user.getId());
-            System.out.println("------------------------------"+user.getId());
+            System.out.println("------------------------------" + user.getId());
 
         }
         model.addAttribute("games", games);
-
-        return games;
     }
 }
 
 
 //TO SAMO:
-//        countriesDTO.addAll(formCountriesDTO.stream().map(this::apply).collect(Collectors.toList()));
+//        countriesDTO.addAll(countriesFormDTO.stream().map(this::apply).collect(Collectors.toList()));
 //
-//                for (CountryEntity country : formCountriesDTO) {
+//                for (CountryEntity country : countriesFormDTO) {
 //                countriesDTO.add(apply(country));
 //                }
