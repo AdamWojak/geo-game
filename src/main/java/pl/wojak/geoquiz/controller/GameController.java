@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.wojak.geoquiz.constant;
 import pl.wojak.geoquiz.dto.CountryDTO;
 import pl.wojak.geoquiz.dto.CountryFormDTO;
 import pl.wojak.geoquiz.entity.GameEntity;
@@ -78,7 +79,7 @@ public class GameController {
 
         UserEntity user = (UserEntity) ses.getAttribute("user");
         GameEntity game = (GameEntity) ses.getAttribute("game");
-        if (user == null) {
+        if (user.getUserName() == constant.ANONYMOUS_NAME && game == null) {
             return "game/noSavedGames";
         } else {
             gameService.createListOfSavedGames(user, game, model);

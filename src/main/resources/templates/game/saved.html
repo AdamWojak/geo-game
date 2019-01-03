@@ -1,67 +1,67 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>GEO-QUIZ</title>
+    <title>Wczytaj grę</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}"/>
 </head>
 <body>
+<div id="container">
 
-
-<div id="login" th:switch="${user.userName}">
-        <span th:case="'Anonymous'">
+    <div id="login" th:switch="${user.userName}">
+        <span th:case="${T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
             <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
             <a href="../user/register"> Zarejestruj się </a>
         </span>
-    <span th:case="null">
+        <span th:case="null">
             <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
             <a href="../user/register"> Zarejestruj się </a>
         </span>
-    <span th:case="*">
+        <span th:case="*">
             <span th:text="${user.userName}+ '&nbsp;||&nbsp;'" th:remove="tag"></span>
             <a href="../user/logout"> (Wyloguj) </a>
         </span>
-</div>
+    </div>
 
 
-<div id="main">
-    <h1>GEO-QUIZ: Państwa - Stolice</h1>
-    <table class="sav">
-        <tr>
-            <!--<th>Nr gracza:</th>-->
-            <th>Nr gry:</th>
-            <th>Ilość punktów:</th>
-            <th>Ilość prób:</th>
-            <th>Data:</th>
-            <th>Akcja</th>
-        </tr>
-        <!--TODO DO ZROBIENIA TABELA-->
-        <th:block th:each="game :${games}">
+    <div id="main">
+        <h1>GEO-QUIZ: Państwa - Stolice</h1>
+        <table class="sav">
             <tr>
-                <!--<td>Gracz</td>-->
-                <td th:text="${game.id}"> </td>
-                <td th:text="${game.amountOfPoints}"></td>
-                <td th:text="${game.amountOfAttempts}"></td>
-                <td>Data</td>
-                <td >
-                    <span th:if="${user.userName =='Anonymous'}">
+                <!--<th>Nr gracza:</th>-->
+                <th>Nr gry:</th>
+                <th>Ilość punktów:</th>
+                <th>Ilość prób:</th>
+                <th>Data:</th>
+                <th>Akcja</th>
+            </tr>
+            <!--TODO DO ZROBIENIA TABELA-->
+            <th:block th:each="game :${games}">
+                <tr>
+                    <!--<td>Gracz</td>-->
+                    <td th:text="${game.id}"></td>
+                    <td th:text="${game.amountOfPoints}"></td>
+                    <td th:text="${game.amountOfAttempts}"></td>
+                    <td>Data</td>
+                    <td>
+                    <span th:if="${user.userName == T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
                         <a class="noneDecoration" href="load?id=${game.id}">Wczytaj</a>
                     </span>
-                    <span th:unless="${user.userName =='Anonymous'}">
+                        <span th:unless="${user.userName ==T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
                         <a class="noneDecoration" href="load?id=${game.id}">Wczytaj</a>
                         &nbsp; | &nbsp;
                         <a class="noneDecoration" href="delete?id=${game.id}">Usuń</a>
                     </span>
-                </td>
+                    </td>
 
 
-
-                <!--</c:otherwise>-->
-                <!--</c:choose>-->
-                <!--</td>-->
-            </tr>
-        </th:block>
-    </table>
+                    <!--</c:otherwise>-->
+                    <!--</c:choose>-->
+                    <!--</td>-->
+                </tr>
+            </th:block>
+        </table>
+    </div>
 
     <div id="footer">
         <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;

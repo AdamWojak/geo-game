@@ -13,7 +13,7 @@
 
 
     <div class="login" th:switch="${user.userName}">
-        <span th:case="'Anonymous'">
+        <span th:case="${T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
             <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
             <a href="../user/register"> Zarejestruj się </a>
         </span>
