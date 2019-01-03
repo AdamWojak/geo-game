@@ -29,6 +29,7 @@ public class GameEntity {
 
 
     public GameEntity() {
+        this.id = -1L;
         this.amountOfPoints = 0;
         this.amountOfAttempts = 0;
     }

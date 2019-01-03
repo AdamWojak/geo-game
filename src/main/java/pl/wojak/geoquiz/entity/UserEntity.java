@@ -38,6 +38,7 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<GameEntity> games = new ArrayList<>();
 
+
     public UserEntity(String userName) {
         this.userName = userName;
         this.email = ANONYMOUS_EMAIL;

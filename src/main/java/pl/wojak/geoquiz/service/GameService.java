@@ -45,8 +45,11 @@ public class GameService implements CrudService<GameEntity> {
             user = new UserEntity(ANONYMOUS_NAME);
             model.addAttribute("user", user);
         }
-        GameEntity game = new GameEntity(user);
-        if (!user.getUserName().equals(ANONYMOUS_NAME)) {
+        GameEntity game;
+        if (user.getUserName().equals(ANONYMOUS_NAME)) {
+             game = new GameEntity();
+        } else {
+             game = new GameEntity(user);
             gameRepository.save(game);
         }
 
