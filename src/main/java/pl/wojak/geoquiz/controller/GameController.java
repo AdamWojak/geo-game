@@ -27,7 +27,7 @@ public class GameController {
     @GetMapping("/newgame")
     public String newGame(Model model, HttpSession ses) {
 
-        CountryFormDTO countryForm = gameService.newGame(model,ses);
+        CountryFormDTO countryForm = gameService.newGame(model, ses);
         if (countryForm.getCountriesFormDTO().isEmpty()) {
             return "game/win";
         } else {
@@ -60,10 +60,13 @@ public class GameController {
         UserEntity user = (UserEntity) ses.getAttribute("user");
         GameEntity game = (GameEntity) ses.getAttribute("game");
 
-        if (user.getUserName() == ANONYMOUS_NAME && game == null) {
+        if (user.getUserName() == null || user.getUserName() == ANONYMOUS_NAME && game == null) {
             return "game/noSavedGames";
         } else {
             gameService.createListOfSavedGames(user, game, model);
+            if (game == null) {
+                return "game/noSavedGames";
+            }
         }
         return "game/saved";
     }

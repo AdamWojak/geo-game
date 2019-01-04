@@ -41,7 +41,7 @@
                     <td th:text="${game.id}"></td>
                     <td th:text="${game.amountOfPoints}"></td>
                     <td th:text="${game.amountOfAttempts}"></td>
-                    <td>Data</td>
+                    <td th:text="${game.modificationDate}"></td>
                     <td>
                     <span th:if="${user.userName == T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
                         <a class="noneDecoration" href="load?id=${game.id}">Wczytaj</a>

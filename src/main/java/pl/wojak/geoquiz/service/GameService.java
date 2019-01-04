@@ -14,6 +14,7 @@ import pl.wojak.geoquiz.repository.GameRepository;
 import pl.wojak.geoquiz.repository.GuessedRepository;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -108,6 +109,7 @@ public class GameService implements CrudService<GameEntity> {
             model.addAttribute("guessed", guessed);
         } else {
             guessedRepository.saveAll(guessed);
+            game.setModificationDate(LocalDateTime.now());
             gameRepository.save(game);
         }
     }

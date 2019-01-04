@@ -13,7 +13,7 @@ public interface GameRepository extends CrudRepository<GameEntity, Long> {
 
     List<GameEntity> findAllByUserId(Long id);
 
-    @Query("select g from GameEntity g left join g.user u where u.id =?1")
+    @Query("select g from GameEntity g left join g.user u where u.id =?1 order by g.modificationDate desc")
     List<GameEntity> findAllGamesByUserId(Long id);
 
 }
