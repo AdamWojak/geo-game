@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.wojak.geoquiz.constant;
 import pl.wojak.geoquiz.dto.CountryDTO;
 import pl.wojak.geoquiz.dto.CountryFormDTO;
 import pl.wojak.geoquiz.entity.GameEntity;
@@ -16,6 +15,8 @@ import pl.wojak.geoquiz.service.GameService;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+
+import static pl.wojak.geoquiz.constant.ANONYMOUS_NAME;
 
 @Controller
 @RequestMapping("/game")
@@ -79,15 +80,27 @@ public class GameController {
 
         UserEntity user = (UserEntity) ses.getAttribute("user");
         GameEntity game = (GameEntity) ses.getAttribute("game");
-        if (user.getUserName() == constant.ANONYMOUS_NAME && game == null) {
+
+        if (user.getUserName() == ANONYMOUS_NAME && game == null) {
             return "game/noSavedGames";
         } else {
             gameService.createListOfSavedGames(user, game, model);
         }
         return "game/saved";
-
-
     }
 
+    @GetMapping("/load")
+    public String loadSavedGame(@RequestParam(name = "id") Long id, Model model, HttpSession ses) {
+
+        gameService.loadSavedGame(id, model, ses);
+        return "redirect:/game/form";
+    }
+
+    @GetMapping("/delete")
+    public String deleteSavedGame(@RequestParam(name = "id") Long id) {
+        System.out.println(id);
+        gameService.deleteSavedGame(id);
+        return "redirect:/game/saved";
+    }
 
 }

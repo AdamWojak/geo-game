@@ -13,6 +13,7 @@ import pl.wojak.geoquiz.repository.CountryRepository;
 import pl.wojak.geoquiz.repository.GameRepository;
 import pl.wojak.geoquiz.repository.GuessedRepository;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +29,8 @@ public class GameService implements CrudService<GameEntity> {
     private final GuessedRepository guessedRepository;
 
 
-    public GameService(GameRepository gameRepository, CountryRepository countryRepository, GuessedRepository guessedRepository) {
+    public GameService(GameRepository gameRepository, CountryRepository countryRepository,
+                       GuessedRepository guessedRepository) {
         this.gameRepository = gameRepository;
         this.countryRepository = countryRepository;
         this.guessedRepository = guessedRepository;
@@ -47,9 +49,9 @@ public class GameService implements CrudService<GameEntity> {
         }
         GameEntity game;
         if (user.getUserName().equals(ANONYMOUS_NAME)) {
-             game = new GameEntity();
+            game = new GameEntity();
         } else {
-             game = new GameEntity(user);
+            game = new GameEntity(user);
             gameRepository.save(game);
         }
 
@@ -134,18 +136,25 @@ public class GameService implements CrudService<GameEntity> {
             game.setId(1L);
             games.add(game);
         } else {
-            games = gameRepository.findAllByUserId(user.getId());
-            System.out.println("------------------------------" + user.getId());
-
+            games = gameRepository.findAllGamesByUserId(user.getId());
         }
         model.addAttribute("games", games);
     }
+
+
+    public void loadSavedGame(Long id, Model model, HttpSession ses) {
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        GameEntity game;
+        if (user.getUserName().equals(ANONYMOUS_NAME)) {
+            game = (GameEntity) ses.getAttribute("game");
+        } else {
+            game = gameRepository.findById(id).orElse(null);
+        }
+        model.addAttribute("game", game);
+    }
+
+    public void deleteSavedGame(Long id) {
+        gameRepository.deleteById(id);
+    }
+
 }
-
-
-//TO SAMO:
-//        countriesDTO.addAll(countriesFormDTO.stream().map(this::apply).collect(Collectors.toList()));
-//
-//                for (CountryEntity country : countriesFormDTO) {
-//                countriesDTO.add(apply(country));
-//                }

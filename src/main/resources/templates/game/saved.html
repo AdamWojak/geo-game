@@ -47,13 +47,13 @@
                     <span th:if="${user.userName == T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
                         <a class="noneDecoration" href="load?id=${game.id}">Wczytaj</a>
                     </span>
+                        <!--todo th:href-->
                         <span th:unless="${user.userName ==T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
-                        <a class="noneDecoration" href="load?id=${game.id}">Wczytaj</a>
+                        <a class="noneDecoration" th:href="@{/game/load(id=${game.id})}">Wczytaj</a>
                         &nbsp; | &nbsp;
-                        <a class="noneDecoration" href="delete?id=${game.id}">Usuń</a>
+                        <a class="noneDecoration" th:href="@{/game/delete(id=${game.id})}">Usuń</a>
                     </span>
                     </td>
-
                 </tr>
             </th:block>
         </table>
