@@ -5,8 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import pl.wojak.geoquiz.entity.UserEntity;
-import pl.wojak.geoquiz.repository.UserRepository;
+import pl.wojak.geoquiz.service.HomeService;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,19 +13,13 @@ import javax.servlet.http.HttpSession;
 @SessionAttributes({"user", "game"})
 public class HomeController {
 
-
     @Autowired
-    UserRepository userRepository;
+    HomeService homeService;
 
     @RequestMapping({"/", "/geoquiz"})
     public String hello(Model model, HttpSession ses) {
 
-        UserEntity user = (UserEntity) ses.getAttribute("user");
-        if (user == null) {
-            user = new UserEntity();
-        }
-        model.addAttribute("user", user);
-
+        homeService.hello(model, ses);
         return "index";
     }
 

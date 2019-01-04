@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.wojak.geoquiz.entity.CountryEntity;
 
 @Data
 @Builder
@@ -24,10 +23,5 @@ public class CountryDTO {
     private String guessedCapital;
 
     private Boolean result;
-
-
-
-
-
 
 }

@@ -35,7 +35,6 @@
                 <th>Data:</th>
                 <th>Akcja</th>
             </tr>
-            <!--TODO DO ZROBIENIA TABELA-->
             <th:block th:each="game :${games}">
                 <tr>
                     <!--<td>Gracz</td>-->
@@ -47,7 +46,6 @@
                     <span th:if="${user.userName == T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
                         <a class="noneDecoration" href="load?id=${game.id}">Wczytaj</a>
                     </span>
-                        <!--todo th:href-->
                         <span th:unless="${user.userName ==T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
                         <a class="noneDecoration" th:href="@{/game/load(id=${game.id})}">Wczytaj</a>
                         &nbsp; | &nbsp;

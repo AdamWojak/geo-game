@@ -8,9 +8,6 @@ import pl.wojak.geoquiz.dto.CountryDTO;
 import pl.wojak.geoquiz.dto.CountryFormDTO;
 import pl.wojak.geoquiz.entity.GameEntity;
 import pl.wojak.geoquiz.entity.UserEntity;
-import pl.wojak.geoquiz.repository.CountryRepository;
-import pl.wojak.geoquiz.repository.GameRepository;
-import pl.wojak.geoquiz.repository.GuessedRepository;
 import pl.wojak.geoquiz.service.GameService;
 
 import javax.servlet.http.HttpSession;
@@ -24,24 +21,13 @@ import static pl.wojak.geoquiz.constant.ANONYMOUS_NAME;
 public class GameController {
 
     @Autowired
-    private CountryRepository countryRepository;
-
-    @Autowired
     private GameService gameService;
-
-    @Autowired
-    GameRepository gameRepository;
-
-    @Autowired
-    GuessedRepository guessedRepository;
 
 
     @GetMapping("/newgame")
     public String newGame(Model model, HttpSession ses) {
-        UserEntity user = (UserEntity) ses.getAttribute("user");
-        model.addAttribute("user", user);
 
-        CountryFormDTO countryForm = gameService.newGame(model, user);
+        CountryFormDTO countryForm = gameService.newGame(model,ses);
         if (countryForm.getCountriesFormDTO().isEmpty()) {
             return "game/win";
         } else {
@@ -52,11 +38,7 @@ public class GameController {
     @GetMapping("/form")
     public String game(Model model, HttpSession ses) {
 
-        UserEntity user = (UserEntity) ses.getAttribute("user");
-        GameEntity game = (GameEntity) ses.getAttribute("game");
-
-        List<CountryDTO> countries = gameService.game(user, game, model);
-
+        List<CountryDTO> countries = gameService.game(model, ses);
         if (countries.isEmpty()) {
             return "game/win";
         } else {
@@ -67,10 +49,7 @@ public class GameController {
     @PostMapping("/form")
     public String countriesCorrect(@ModelAttribute("countryForm") CountryFormDTO countryForm, Model model, HttpSession ses) {
 
-        UserEntity user = (UserEntity) ses.getAttribute("user");
-        GameEntity game = (GameEntity) ses.getAttribute("game");
-
-        gameService.checkForm(user, game, countryForm, model);
+        gameService.checkForm(countryForm, model, ses);
 
         return "game/form02";
     }

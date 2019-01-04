@@ -14,9 +14,7 @@ public class CountryFormDTO {
 
     private List<CountryDTO> countriesFormDTO;
 
-
     public CountryFormDTO() {
         this.countriesFormDTO = new ArrayList<>();
     }
-
 }

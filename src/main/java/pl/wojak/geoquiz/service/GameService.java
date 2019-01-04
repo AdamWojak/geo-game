@@ -42,7 +42,9 @@ public class GameService implements CrudService<GameEntity> {
     }
 
 
-    public CountryFormDTO newGame(Model model, UserEntity user) {
+    public CountryFormDTO newGame(Model model, HttpSession ses) {
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        model.addAttribute("user", user);
         if (user == null || user.getUserName() == null) {
             user = new UserEntity(ANONYMOUS_NAME);
             model.addAttribute("user", user);
@@ -63,7 +65,10 @@ public class GameService implements CrudService<GameEntity> {
         return countryForm;
     }
 
-    public List<CountryDTO> game(UserEntity user, GameEntity game, Model model) {
+    public List<CountryDTO> game(Model model, HttpSession ses) {
+
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        GameEntity game = (GameEntity) ses.getAttribute("game");
 
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game = gameRepository.findById(game.getId()).orElseThrow(NullPointerException::new);
@@ -87,7 +92,10 @@ public class GameService implements CrudService<GameEntity> {
     }
 
 
-    public void checkForm(UserEntity user, GameEntity game, CountryFormDTO countryForm, Model model) {
+    public void checkForm(CountryFormDTO countryForm, Model model, HttpSession ses) {
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        GameEntity game = (GameEntity) ses.getAttribute("game");
+
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game = gameRepository.findById(game.getId()).orElse(null);
         }
