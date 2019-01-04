@@ -38,7 +38,14 @@ public class GameController {
     @GetMapping("/form")
     public String game(Model model, HttpSession ses) {
 
-        List<CountryDTO> countries = gameService.game(model, ses);
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        GameEntity game = (GameEntity) ses.getAttribute("game");
+
+        if(user== null && game == null){
+            return "game/noActiveGame";
+        }
+
+        List<CountryDTO> countries = gameService.game(user, game, model);
         if (countries.isEmpty()) {
             return "game/win";
         } else {

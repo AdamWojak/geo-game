@@ -26,31 +26,32 @@
 
     <div id="main">
         <h1>GEO-QUIZ: Państwa - Stolice</h1>
+        <br>
+        <h2 th:text="${user.userName} + '! Lista twoich gier:'"></h2>
+        <br>
         <table class="sav">
             <tr>
-                <!--<th>Nr gracza:</th>-->
                 <th>Nr gry:</th>
                 <th>Ilość punktów:</th>
                 <th>Ilość prób:</th>
                 <th>Data:</th>
-                <th>Akcja</th>
+                <th>Akcja:</th>
             </tr>
             <th:block th:each="game :${games}">
                 <tr>
-                    <!--<td>Gracz</td>-->
-                    <td th:text="${game.id}"></td>
+                    <td th:text="${game.userGameId}"></td>
                     <td th:text="${game.amountOfPoints}"></td>
                     <td th:text="${game.amountOfAttempts}"></td>
-                    <td th:text="${game.modificationDate}"></td>
+                    <td th:text="${#temporals.format(game.modificationDate, 'yyyy-MM-dd HH:mm')}"></td>
                     <td>
-                    <span th:if="${user.userName == T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
-                        <a class="noneDecoration" href="load?id=${game.id}">Wczytaj</a>
-                    </span>
+                        <span th:if="${user.userName == T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
+                            <a class="noneDecoration" th:href="@{/game/load(id=${game.id})}">Wczytaj</a>
+                        </span>
                         <span th:unless="${user.userName ==T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
-                        <a class="noneDecoration" th:href="@{/game/load(id=${game.id})}">Wczytaj</a>
-                        &nbsp; | &nbsp;
-                        <a class="noneDecoration" th:href="@{/game/delete(id=${game.id})}">Usuń</a>
-                    </span>
+                            <a class="noneDecoration" th:href="@{/game/load(id=${game.id})}">Wczytaj</a>
+                            &nbsp; | &nbsp;
+                            <a class="noneDecoration" th:href="@{/game/delete(id=${game.id})}">Usuń</a>
+                        </span>
                     </td>
                 </tr>
             </th:block>

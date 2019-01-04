@@ -55,6 +55,7 @@ public class GameService implements CrudService<GameEntity> {
             game = new GameEntity();
         } else {
             game = new GameEntity(user);
+            setGameNumberForSpecificPlayer(user.getId(), game);
             gameRepository.save(game);
         }
 
@@ -66,10 +67,15 @@ public class GameService implements CrudService<GameEntity> {
         return countryForm;
     }
 
-    public List<CountryDTO> game(Model model, HttpSession ses) {
+    private void setGameNumberForSpecificPlayer(Long userId, GameEntity game) {
+        Long userGameId = gameRepository.findLastGameForSpecificPlayer(userId);
+        if (userGameId == null) {
+            userGameId = 1L;
+        }
+        game.setUserGameId(userGameId + 1L);
+    }
 
-        UserEntity user = (UserEntity) ses.getAttribute("user");
-        GameEntity game = (GameEntity) ses.getAttribute("game");
+    public List<CountryDTO> game(UserEntity user, GameEntity game, Model model) {
 
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game = gameRepository.findById(game.getId()).orElseThrow(NullPointerException::new);

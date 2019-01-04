@@ -28,25 +28,13 @@
         <h1>GRA GEO-QUIZ: Państwa - Stolice</h1>
         <h1 th:text="${user == null} ? ' Dzięki za grę!': ${user.userName} + ' Dzięki za grę!'"></h1>
         <br> <br>
+
         <div class="center">
-            <!-- source: https://d.wpimg.pl/492663152-1119541322/hubert-urbanski.jpg -->
-            <img alt="Hubert Urbański pyta:" th:src="@{/img/hubert.png}"/>
-        </div>
-        <br>
-        <h2>Może jednak?</h2>
-
-        <div class="options">
-            <h2>
-                <a href="form"> Graj Dalej! </a>
-                &nbsp;&nbsp; | &nbsp;&nbsp;
-                <a href="/ended"> Koniec Gry </a>
-            </h2>
+            <!-- source: personal picture from work in Iran, taken by J.Krawiecki -->
+            <img alt="sunset in Iran:" th:src="@{/img/iran.png}"/>
         </div>
 
-        <div class="center margin-top">
-            <p th:text="${game == null} ? '' : 'Liczba punktów: '+ ${game.amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp;Liczba prób:'+${game.amountOfAttempts}"></p>
-        </div>
-    </div>
+        <p>Adam Wojak</p>
 
     <div id="footer">
         <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;

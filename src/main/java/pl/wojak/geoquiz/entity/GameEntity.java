@@ -22,6 +22,9 @@ public class GameEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    @Column(name = "user_game_id")
+    private Long userGameId;
+
     @Column(name = "amount_of_points")
     private Integer amountOfPoints;
 

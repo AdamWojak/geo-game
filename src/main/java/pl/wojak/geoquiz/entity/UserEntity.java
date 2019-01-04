@@ -43,8 +43,6 @@ public class UserEntity {
         this.userName = userName;
         this.email = ANONYMOUS_EMAIL;
         this.password = ANONYMOUS_PASSWORD;
-        GameEntity game = new GameEntity();
-        games.add(game);
     }
 
 }
