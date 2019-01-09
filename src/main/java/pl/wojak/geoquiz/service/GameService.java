@@ -13,6 +13,8 @@ import pl.wojak.geoquiz.repository.CountryRepository;
 import pl.wojak.geoquiz.repository.GameRepository;
 import pl.wojak.geoquiz.repository.GuessedRepository;
 
+import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +30,8 @@ public class GameService implements CrudService<GameEntity> {
     private final GuessedRepository guessedRepository;
 
 
-    public GameService(GameRepository gameRepository, CountryRepository countryRepository, GuessedRepository guessedRepository) {
+    public GameService(GameRepository gameRepository, CountryRepository countryRepository,
+                       GuessedRepository guessedRepository) {
         this.gameRepository = gameRepository;
         this.countryRepository = countryRepository;
         this.guessedRepository = guessedRepository;
@@ -40,13 +43,19 @@ public class GameService implements CrudService<GameEntity> {
     }
 
 
-    public CountryFormDTO newGame(Model model, UserEntity user) {
+    public CountryFormDTO newGame(Model model, HttpSession ses) {
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        model.addAttribute("user", user);
         if (user == null || user.getUserName() == null) {
             user = new UserEntity(ANONYMOUS_NAME);
             model.addAttribute("user", user);
         }
-        GameEntity game = new GameEntity(user);
-        if (!user.getUserName().equals(ANONYMOUS_NAME)) {
+        GameEntity game;
+        if (user.getUserName().equals(ANONYMOUS_NAME)) {
+            game = new GameEntity();
+        } else {
+            game = new GameEntity(user);
+            setGameNumberForSpecificPlayer(user.getId(), game);
             gameRepository.save(game);
         }
 
@@ -56,6 +65,14 @@ public class GameService implements CrudService<GameEntity> {
         model.addAttribute("countryForm", countryForm);
         model.addAttribute("game", game);
         return countryForm;
+    }
+
+    private void setGameNumberForSpecificPlayer(Long userId, GameEntity game) {
+        Long userGameId = gameRepository.findLastGameForSpecificPlayer(userId);
+        if (userGameId == null) {
+            userGameId = 1L;
+        }
+        game.setUserGameId(userGameId + 1L);
     }
 
     public List<CountryDTO> game(UserEntity user, GameEntity game, Model model) {
@@ -82,11 +99,14 @@ public class GameService implements CrudService<GameEntity> {
     }
 
 
-    public void checkForm(UserEntity user, GameEntity game, CountryFormDTO countryForm, Model model) {
+    public void checkForm(CountryFormDTO countryForm, Model model, HttpSession ses) {
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        GameEntity game = (GameEntity) ses.getAttribute("game");
+
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game = gameRepository.findById(game.getId()).orElse(null);
         }
-        List<CountryDTO> countriesDTO = countryForm.getFormCountriesDTO();
+        List<CountryDTO> countriesDTO = countryForm.getCountriesFormDTO();
         List<GuessedEntity> guessed = new ArrayList<>();
 
         setAmountOfPointsAndAttempts(model, game, countriesDTO, guessed);
@@ -95,6 +115,7 @@ public class GameService implements CrudService<GameEntity> {
             model.addAttribute("guessed", guessed);
         } else {
             guessedRepository.saveAll(guessed);
+            game.setModificationDate(LocalDateTime.now());
             gameRepository.save(game);
         }
     }
@@ -123,12 +144,33 @@ public class GameService implements CrudService<GameEntity> {
         model.addAttribute("amountOfPoints", amountOfPoints);
         model.addAttribute("amountOfAttempts", amountOfAttempts);
     }
+
+    public void createListOfSavedGames(UserEntity user, GameEntity game, Model model) {
+        List<GameEntity> games = new ArrayList<>();
+
+        if (user.getUserName().equals(ANONYMOUS_NAME)) {
+            game.setId(1L);
+            games.add(game);
+        } else {
+            games = gameRepository.findAllGamesByUserId(user.getId());
+        }
+        model.addAttribute("games", games);
+    }
+
+
+    public void loadSavedGame(Long id, Model model, HttpSession ses) {
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        GameEntity game;
+        if (user.getUserName().equals(ANONYMOUS_NAME)) {
+            game = (GameEntity) ses.getAttribute("game");
+        } else {
+            game = gameRepository.findById(id).orElse(null);
+        }
+        model.addAttribute("game", game);
+    }
+
+    public void deleteSavedGame(Long id) {
+        gameRepository.deleteById(id);
+    }
+
 }
-
-
-//TO SAMO:
-//        countriesDTO.addAll(formCountriesDTO.stream().map(this::apply).collect(Collectors.toList()));
-//
-//                for (CountryEntity country : formCountriesDTO) {
-//                countriesDTO.add(apply(country));
-//                }

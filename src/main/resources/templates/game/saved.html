@@ -1,8 +1,72 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>GEO-QUIZ</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link  rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}" />
+    <title>Wczytaj grę</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}"/>
 </head>
 <body>
+<div id="container">
+
+    <div id="login" th:switch="${user.userName}">
+        <span th:case="${T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
+            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
+            <a href="../user/register"> Zarejestruj się </a>
+        </span>
+        <span th:case="null">
+            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
+            <a href="../user/register"> Zarejestruj się </a>
+        </span>
+        <span th:case="*">
+            <span th:text="${user.userName}+ '&nbsp;||&nbsp;'" th:remove="tag"></span>
+            <a href="../user/logout"> (Wyloguj) </a>
+        </span>
+    </div>
+
+
+    <div id="main">
+        <h1>GEO-QUIZ: Państwa - Stolice</h1>
+        <br>
+        <h2 th:text="${user.userName} + '! Lista twoich gier:'"></h2>
+        <br>
+        <table class="sav">
+            <tr>
+                <th>Nr gry:</th>
+                <th>Ilość punktów:</th>
+                <th>Ilość prób:</th>
+                <th>Data:</th>
+                <th>Akcja:</th>
+            </tr>
+            <th:block th:each="game :${games}">
+                <tr>
+                    <td th:text="${game.userGameId}"></td>
+                    <td th:text="${game.amountOfPoints}"></td>
+                    <td th:text="${game.amountOfAttempts}"></td>
+                    <td th:text="${#temporals.format(game.modificationDate, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td>
+                        <span th:if="${user.userName == T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
+                            <a class="noneDecoration" th:href="@{/game/load(id=${game.id})}">Wczytaj</a>
+                        </span>
+                        <span th:unless="${user.userName ==T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
+                            <a class="noneDecoration" th:href="@{/game/load(id=${game.id})}">Wczytaj</a>
+                            &nbsp; | &nbsp;
+                            <a class="noneDecoration" th:href="@{/game/delete(id=${game.id})}">Usuń</a>
+                        </span>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+
+    <div id="footer">
+        <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="end"> Koniec </a>
+    </div>
+
+
+</div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Wczytaj grę</title>
+    <title>GEO-QUIZ</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}"/>
 </head>
@@ -23,18 +23,23 @@
         </span>
     </div>
 
+
     <div id="main">
         <h1>GRA GEO-QUIZ: Państwa - Stolice</h1>
+        <h1 th:text="${user == null} ? ' Dzięki za grę!': ${user.userName} + ' Dzięki za grę!'"></h1>
+        <br> <br>
 
-        <h2>Nie masz żadnej zapisanej gry.</h2>
-    </div>
+        <div class="center">
+            <!-- source: personal picture from work in Iran, taken by J.Krawiecki -->
+            <img alt="sunset in Iran:" th:src="@{/img/iran.png}"/>
+        </div>
+
+        <p>Adam Wojak</p>
 
     <div id="footer">
         <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="end"> Koniec </a>
+        <a href="../funfact/all"> Ciekawostki </a>
     </div>
 
 

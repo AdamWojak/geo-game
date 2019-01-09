@@ -57,6 +57,9 @@ public class LoginController {
     public String loggedout(Model model, WebRequest request, SessionStatus status) {
         status.setComplete();
         request.removeAttribute("user", WebRequest.SCOPE_SESSION);
+        request.removeAttribute("countryForm", WebRequest.SCOPE_SESSION);
+        request.removeAttribute("game", WebRequest.SCOPE_SESSION);
+        request.removeAttribute("guessed", WebRequest.SCOPE_SESSION);
         return "user/loggedout";
     }
 

@@ -12,11 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 public class CountryFormDTO {
 
-    private List<CountryDTO> formCountriesDTO;
-
+    private List<CountryDTO> countriesFormDTO;
 
     public CountryFormDTO() {
-        this.formCountriesDTO = new ArrayList<>();
+        this.countriesFormDTO = new ArrayList<>();
     }
-
 }

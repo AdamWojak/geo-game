@@ -35,15 +35,14 @@ public class UserEntity {
     @Transient
     private String verifiedPassword;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<GameEntity> games = new ArrayList<>();
+
 
     public UserEntity(String userName) {
         this.userName = userName;
         this.email = ANONYMOUS_EMAIL;
         this.password = ANONYMOUS_PASSWORD;
-        GameEntity game = new GameEntity();
-        games.add(game);
     }
 
 }
