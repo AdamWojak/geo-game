@@ -7,12 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.wojak.geoquiz.service.HomeService;
 
 import javax.servlet.http.HttpSession;
 
 @Controller
-@SessionAttributes({"user", "game"})
+@SessionAttributes({"user", "countryForm", "game", "guessed"})
 public class HomeController {
 
     @Autowired
@@ -26,17 +27,14 @@ public class HomeController {
     }
 
     @RequestMapping("/game/end")
-    public String end(Model model, WebRequest request, SessionStatus status) {
+    public String end(Model model) {
         return "game/end";
     }
 
     @RequestMapping("game/ended")
-    public String ended(Model model, WebRequest request, SessionStatus status){
+    public String ended(Model model, SessionStatus status){
         status.setComplete();
-        request.removeAttribute("countryForm", WebRequest.SCOPE_SESSION);
-        request.removeAttribute("game", WebRequest.SCOPE_SESSION);
-        request.removeAttribute("guessed", WebRequest.SCOPE_SESSION);
-        return "index";
+        return "game/ended";
     }
 
     @RequestMapping("/game/win")
