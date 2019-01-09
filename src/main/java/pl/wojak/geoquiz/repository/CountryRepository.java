@@ -2,7 +2,6 @@ package pl.wojak.geoquiz.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.wojak.geoquiz.entity.CountryEntity;
 
@@ -28,4 +27,8 @@ public interface CountryRepository extends CrudRepository<CountryEntity, Long> {
     List<CountryEntity> findCountriesByContinent(String continent);
 
     CountryEntity findCountryByCapital(String capital);
+
+    @Query("select distinct c.continent from CountryEntity c")
+//    @Query(value = "select distinct c.continent from geo_schema.country c", nativeQuery = true)
+    List<String> findListOfContinents();
 }

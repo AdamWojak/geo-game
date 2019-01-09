@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import pl.wojak.geoquiz.dto.CountryDTO;
 import pl.wojak.geoquiz.dto.CountryFormDTO;
+import pl.wojak.geoquiz.dto.GameParamFormDTO;
 import pl.wojak.geoquiz.entity.CountryEntity;
 import pl.wojak.geoquiz.entity.GameEntity;
 import pl.wojak.geoquiz.entity.GuessedEntity;
@@ -43,7 +44,7 @@ public class GameService implements CrudService<GameEntity> {
     }
 
 
-    public CountryFormDTO newGame(Model model, HttpSession ses) {
+    public void newGame(Model model, HttpSession ses) {
         UserEntity user = (UserEntity) ses.getAttribute("user");
         model.addAttribute("user", user);
         if (user == null || user.getUserName() == null) {
@@ -59,12 +60,17 @@ public class GameService implements CrudService<GameEntity> {
             gameRepository.save(game);
         }
 
-        List<CountryDTO> countriesDTO = findRandom3CountriesforOneGame(game);
-        CountryFormDTO countryForm = new CountryFormDTO(countriesDTO);
+        List<String> continents = countryRepository.findListOfContinents();
+        GameParamFormDTO gameParamFormDTO = new GameParamFormDTO();
+        gameParamFormDTO.setContinents(continents);
+        model.addAttribute("gameParamFormDTO", gameParamFormDTO);
 
-        model.addAttribute("countryForm", countryForm);
+//        List<CountryDTO> countriesDTO = findRandom3CountriesforOneGame(game);
+//        CountryFormDTO countryForm = new CountryFormDTO(countriesDTO);
+//
+//        model.addAttribute("countryForm", countryForm);
         model.addAttribute("game", game);
-        return countryForm;
+//        return countryForm;
     }
 
     private void setGameNumberForSpecificPlayer(Long userId, GameEntity game) {

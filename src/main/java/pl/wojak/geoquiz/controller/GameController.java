@@ -23,16 +23,20 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
-
     @GetMapping("/newgame")
     public String newGame(Model model, HttpSession ses) {
 
-        CountryFormDTO countryForm = gameService.newGame(model, ses);
-        if (countryForm.getCountriesFormDTO().isEmpty()) {
-            return "game/win";
-        } else {
-            return "game/form01";
-        }
+        gameService.newGame(model, ses);
+
+        return "game/chooseGameParam";
+    }
+
+    @PostMapping("/newgame")
+    public String newGameParam(Model model, HttpSession ses) {
+
+//        gameService.checkForm(countryForm, model, ses);
+
+        return "game/form01";
     }
 
     @GetMapping("/form")
