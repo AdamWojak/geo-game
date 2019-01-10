@@ -10,15 +10,9 @@ import java.util.List;
 @Repository
 public interface CountryRepository extends CrudRepository<CountryEntity, Long> {
 
-    //    @Query(value = "select * from CountryEntity where id not in(select country_id from GuessedEntity)")
     @Query(value = "select * from geo_schema.country where id not in(select country_id from geo_schema.guessed) order by random() limit 3", nativeQuery = true)
     List<CountryEntity> findRandom3Countries();
-//
-//    @Query(value = "select c from Country c where c.continent =:continent order by countryName asc")
-//    List<CountryEntity> findAllByContinentSortedAsc(@Param("continent") String continent);
-//
 
-    //    @Query(value = "select * from CountryEntity where id not in(select country_id from GuessedEntity where GuessedEntity.game_id =:game_id) order by rand() limit 3", nativeQuery = true)
     @Query(value = "select * from geo_schema.country where id not in(select country_id from geo_schema.guessed g where g.game_id=?1) order by random() limit 3", nativeQuery = true)
     List<CountryEntity> findRandom3CountriesForOneGame(Long id);
 
@@ -28,7 +22,6 @@ public interface CountryRepository extends CrudRepository<CountryEntity, Long> {
 
     CountryEntity findCountryByCapital(String capital);
 
-    @Query("select distinct c.continent from CountryEntity c")
-//    @Query(value = "select distinct c.continent from geo_schema.country c", nativeQuery = true)
+    @Query("select distinct c.continent from CountryEntity c order by c.continent")
     List<String> findListOfContinents();
 }

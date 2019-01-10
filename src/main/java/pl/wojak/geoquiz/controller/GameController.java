@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.wojak.geoquiz.dto.CountryDTO;
 import pl.wojak.geoquiz.dto.CountryFormDTO;
+import pl.wojak.geoquiz.dto.GameParamFormDTO;
 import pl.wojak.geoquiz.entity.GameEntity;
 import pl.wojak.geoquiz.entity.UserEntity;
 import pl.wojak.geoquiz.service.GameService;
@@ -27,14 +28,16 @@ public class GameController {
     public String newGame(Model model, HttpSession ses) {
 
         gameService.newGame(model, ses);
+        System.out.println("test");
 
         return "game/chooseGameParam";
     }
 
     @PostMapping("/newgame")
-    public String newGameParam(Model model, HttpSession ses) {
+    public String newGameParam(@ModelAttribute("gameParamFormDTO") GameParamFormDTO gameParamFormDTO, Model model, HttpSession ses) {
 
-//        gameService.checkForm(countryForm, model, ses);
+        System.out.println("a");
+        //        gameService.checkForm(countryForm, model, ses);
 
         return "game/form01";
     }

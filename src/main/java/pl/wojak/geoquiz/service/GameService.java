@@ -59,18 +59,19 @@ public class GameService implements CrudService<GameEntity> {
             setGameNumberForSpecificPlayer(user.getId(), game);
             gameRepository.save(game);
         }
+        setGameParamFormAndAddToModel(model);
 
-        List<String> continents = countryRepository.findListOfContinents();
-        GameParamFormDTO gameParamFormDTO = new GameParamFormDTO();
-        gameParamFormDTO.setContinents(continents);
-        model.addAttribute("gameParamFormDTO", gameParamFormDTO);
-
-//        List<CountryDTO> countriesDTO = findRandom3CountriesforOneGame(game);
-//        CountryFormDTO countryForm = new CountryFormDTO(countriesDTO);
-//
-//        model.addAttribute("countryForm", countryForm);
         model.addAttribute("game", game);
-//        return countryForm;
+    }
+
+    private void setGameParamFormAndAddToModel(Model model) {
+        GameParamFormDTO gameParamFormDTO = new GameParamFormDTO();
+        List<String> continents = countryRepository.findListOfContinents();
+        continents.add("Cały Świat");
+//        gameParamFormDTO.setContinents(continents);
+        model.addAttribute("continents", continents);
+
+        model.addAttribute("gameParamFormDTO", gameParamFormDTO);
     }
 
     private void setGameNumberForSpecificPlayer(Long userId, GameEntity game) {

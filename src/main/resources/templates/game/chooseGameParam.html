@@ -30,41 +30,31 @@
 
     <div class="main">
         <h1>GEO-QUIZ: Państwa - Stolice</h1>
-
         <br>
         <br>
 
+        <form action="#" th:action="@{/game/newgame}" th:object="${gameParamFormDTO}" method="post">
+            <h3>
+                <label th:text="'Wybierz zakres gry:&nbsp;&nbsp;'"></label>
+                <select th:field="*{continents}">
+                    <option
+                            th:each="continent: ${continents}"
+                            th:value="${continent}"
+                            th:text="${continent}"></option>
+                </select>
+            </h3>
 
-        <form th:object="${gameParamFormDTO}" method='POST'>
-            <table>
-                <tr>
-                    <!--<td th:text="'Wybierz zakres gry: '"></td>-->
-                    <td>
-                        <select th:field="*{gameParamFormDTO.continents}">
-                            <option
-                                    th:each="continent: ${continents}"
-                                    th:value="${continent}"
-                                    th:text="${continent}"></option>
-                        </select>
-                    </td>
-                </tr>
-                <!--<tr>-->
-                    <!--<td th:text="'Wybierz poziom trudności: '"></td>-->
-                    <!--</tr>-->
-                <!--<tr>-->
-                    <!--<td th:each=" level : ${levels}">-->
-                        <!--<input type="radio" th:label="{level}" />-->
-                    <!--</td>-->
-
-                <!--</tr>-->
-            </table>
+            <h3 th:text="'Wybierz poziom trudności: '"></h3>
+            <tr>
+                <td th:each="level : ${T(pl.wojak.geoquiz.enums.DifficultyLevelEnum).values()}">
+                    <input type="radio" th:id="${{level}}" th:value="${{level}}" th:field="*{levels}"/>
+                    <label th:for="${{level}}" th:text="${{level.name}}"></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3"><input type="submit" value="Graj!"></td>
+            </tr>
         </form>
-
-        <ul>
-            <li th:each="ty : ${levels}">
-                <input type="radio" th:field="*{ty}" th:value="${ty}"/>
-            </li>
-        </ul>
 
 
     </div>
@@ -76,10 +66,25 @@
         <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
         <a href="end"> Koniec </a>
-
     </div>
 
 </div>
 </body>
 </html>
 
+
+<!--<h3>-->
+<!--<label th:text="'Wybierz zakres gry:&nbsp;&nbsp;'"></label>-->
+<!--<select th:field="*{gameParamFormDTO.continents}">-->
+<!--<option-->
+<!--th:each="continent: ${gameParamFormDTO.continents}"-->
+<!--th:value="${continent}"-->
+<!--th:text="${continent}"></option>-->
+<!--</select>-->
+<!--</h3>-->
+
+<!--<h3 th:text="'Wybierz poziom trudności: '"></h3>-->
+<!--<td th:each="level : ${T(pl.wojak.geoquiz.enums.DifficultyLevelEnum).values()}">-->
+<!--<input type="radio" th:id="${{level}}" th:value="${{level}}" th:field="*{gameParamFormDTO.levels}"/>-->
+<!--<label th:for="${{level}}" th:text="${{level.name}}"></label>-->
+<!--</td>-->
