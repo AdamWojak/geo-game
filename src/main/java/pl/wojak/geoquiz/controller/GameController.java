@@ -9,6 +9,8 @@ import pl.wojak.geoquiz.dto.CountryFormDTO;
 import pl.wojak.geoquiz.dto.GameParamFormDTO;
 import pl.wojak.geoquiz.entity.GameEntity;
 import pl.wojak.geoquiz.entity.UserEntity;
+import pl.wojak.geoquiz.enums.AreaEnum;
+import pl.wojak.geoquiz.enums.DifficultyLevelEnum;
 import pl.wojak.geoquiz.service.GameService;
 
 import javax.servlet.http.HttpSession;
@@ -36,10 +38,25 @@ public class GameController {
     @PostMapping("/newgame")
     public String newGameParam(@ModelAttribute("gameParamFormDTO") GameParamFormDTO gameParamFormDTO, Model model, HttpSession ses) {
 
-        System.out.println("a");
-        //        gameService.checkForm(countryForm, model, ses);
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        GameEntity game = (GameEntity) ses.getAttribute("game");
 
-        return "game/form01";
+        AreaEnum continent = gameParamFormDTO.getContinents().get(0);
+        DifficultyLevelEnum poziom = gameParamFormDTO.getLevels().get(0);
+
+//        List<CountryDTO> countriesDTO = findRandom3CountriesforOneGame(game);
+//        CountryFormDTO countryForm = new CountryFormDTO(countriesDTO);
+//
+//        model.addAttribute("countryForm", countryForm);
+//        model.addAttribute("game", game);
+//
+//
+        List<CountryDTO> countries = gameService.game(user, game, model);
+        if (countries.isEmpty()) {
+            return "game/win";
+        } else {
+            return "game/form01";
+        }
     }
 
     @GetMapping("/form")
@@ -48,7 +65,7 @@ public class GameController {
         UserEntity user = (UserEntity) ses.getAttribute("user");
         GameEntity game = (GameEntity) ses.getAttribute("game");
 
-        if(user== null && game == null){
+        if (user == null && game == null) {
             return "game/noActiveGame";
         }
 
@@ -68,13 +85,14 @@ public class GameController {
         return "game/form02";
     }
 
+
     @RequestMapping("/saved")
     public String showAllGamesByUserName(Model model, HttpSession ses) {
 
         UserEntity user = (UserEntity) ses.getAttribute("user");
         GameEntity game = (GameEntity) ses.getAttribute("game");
 
-        if ( user == null || user.getUserName() == null || user.getUserName() == ANONYMOUS_NAME && game == null) {
+        if (user == null || user.getUserName() == null || user.getUserName() == ANONYMOUS_NAME && game == null) {
             return "game/noActiveGame";
         } else {
             gameService.createListOfSavedGames(user, game, model);

@@ -10,6 +10,7 @@ import pl.wojak.geoquiz.entity.CountryEntity;
 import pl.wojak.geoquiz.entity.GameEntity;
 import pl.wojak.geoquiz.entity.GuessedEntity;
 import pl.wojak.geoquiz.entity.UserEntity;
+import pl.wojak.geoquiz.enums.AreaEnum;
 import pl.wojak.geoquiz.repository.CountryRepository;
 import pl.wojak.geoquiz.repository.GameRepository;
 import pl.wojak.geoquiz.repository.GuessedRepository;
@@ -17,6 +18,7 @@ import pl.wojak.geoquiz.repository.GuessedRepository;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,11 +68,10 @@ public class GameService implements CrudService<GameEntity> {
 
     private void setGameParamFormAndAddToModel(Model model) {
         GameParamFormDTO gameParamFormDTO = new GameParamFormDTO();
-        List<String> continents = countryRepository.findListOfContinents();
-        continents.add("Cały Świat");
-//        gameParamFormDTO.setContinents(continents);
-        model.addAttribute("continents", continents);
-
+//        List<String> continents = countryRepository.findListOfContinents();
+//        continents.add("Cały Świat");
+        List<AreaEnum> continents = Arrays.asList(AreaEnum.values());
+        model.addAttribute("continents",continents);
         model.addAttribute("gameParamFormDTO", gameParamFormDTO);
     }
 

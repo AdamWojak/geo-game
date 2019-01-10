@@ -3,6 +3,9 @@ package pl.wojak.geoquiz.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
+import pl.wojak.geoquiz.converter.AreaConverter;
+import pl.wojak.geoquiz.converter.DifficultyLevelConverter;
+import pl.wojak.geoquiz.enums.DifficultyLevelEnum;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -33,6 +36,14 @@ public class GameEntity {
 
     @Column(name = "modification_date")
     private LocalDateTime modificationDate;
+
+    @Column(name = "level", columnDefinition = "integer")
+    @Convert(converter = DifficultyLevelConverter.class)
+    private DifficultyLevelEnum level;
+
+    @Column(name = "area", columnDefinition = "varchar")
+    @Convert(converter = AreaConverter.class)
+    private String area;
 
 
     public GameEntity() {
