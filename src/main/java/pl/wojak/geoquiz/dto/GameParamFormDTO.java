@@ -7,12 +7,11 @@ import lombok.NoArgsConstructor;
 import pl.wojak.geoquiz.enums.AreaEnum;
 import pl.wojak.geoquiz.enums.DifficultyLevelEnum;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class GameParamFormDTO {
 
@@ -20,4 +19,8 @@ public class GameParamFormDTO {
 
     private List<DifficultyLevelEnum> levels;
 
+    public GameParamFormDTO() {
+        this.continents = Arrays.asList(AreaEnum.values());
+        this.levels = Arrays.asList(DifficultyLevelEnum.values());
+    }
 }

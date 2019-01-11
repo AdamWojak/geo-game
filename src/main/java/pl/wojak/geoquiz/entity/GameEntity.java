@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.ToString;
 import pl.wojak.geoquiz.converter.AreaConverter;
 import pl.wojak.geoquiz.converter.DifficultyLevelConverter;
+import pl.wojak.geoquiz.enums.AreaEnum;
 import pl.wojak.geoquiz.enums.DifficultyLevelEnum;
 
 import javax.persistence.*;
@@ -43,7 +44,7 @@ public class GameEntity {
 
     @Column(name = "area", columnDefinition = "varchar")
     @Convert(converter = AreaConverter.class)
-    private String area;
+    private AreaEnum area;
 
 
     public GameEntity() {

@@ -9,8 +9,6 @@ import pl.wojak.geoquiz.dto.CountryFormDTO;
 import pl.wojak.geoquiz.dto.GameParamFormDTO;
 import pl.wojak.geoquiz.entity.GameEntity;
 import pl.wojak.geoquiz.entity.UserEntity;
-import pl.wojak.geoquiz.enums.AreaEnum;
-import pl.wojak.geoquiz.enums.DifficultyLevelEnum;
 import pl.wojak.geoquiz.service.GameService;
 
 import javax.servlet.http.HttpSession;
@@ -30,33 +28,16 @@ public class GameController {
     public String newGame(Model model, HttpSession ses) {
 
         gameService.newGame(model, ses);
-        System.out.println("test");
 
         return "game/chooseGameParam";
     }
 
     @PostMapping("/newgame")
-    public String newGameParam(@ModelAttribute("gameParamFormDTO") GameParamFormDTO gameParamFormDTO, Model model, HttpSession ses) {
+    public String newGameWithParams(@ModelAttribute("gameParamFormDTO") GameParamFormDTO gameParamFormDTO, Model model, HttpSession ses) {
 
-        UserEntity user = (UserEntity) ses.getAttribute("user");
-        GameEntity game = (GameEntity) ses.getAttribute("game");
+        gameService.newGameWithParams(gameParamFormDTO, model, ses);
+        return "game/form01";
 
-        AreaEnum continent = gameParamFormDTO.getContinents().get(0);
-        DifficultyLevelEnum poziom = gameParamFormDTO.getLevels().get(0);
-
-//        List<CountryDTO> countriesDTO = findRandom3CountriesforOneGame(game);
-//        CountryFormDTO countryForm = new CountryFormDTO(countriesDTO);
-//
-//        model.addAttribute("countryForm", countryForm);
-//        model.addAttribute("game", game);
-//
-//
-        List<CountryDTO> countries = gameService.game(user, game, model);
-        if (countries.isEmpty()) {
-            return "game/win";
-        } else {
-            return "game/form01";
-        }
     }
 
     @GetMapping("/form")

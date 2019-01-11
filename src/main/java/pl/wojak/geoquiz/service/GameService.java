@@ -11,6 +11,7 @@ import pl.wojak.geoquiz.entity.GameEntity;
 import pl.wojak.geoquiz.entity.GuessedEntity;
 import pl.wojak.geoquiz.entity.UserEntity;
 import pl.wojak.geoquiz.enums.AreaEnum;
+import pl.wojak.geoquiz.enums.DifficultyLevelEnum;
 import pl.wojak.geoquiz.repository.CountryRepository;
 import pl.wojak.geoquiz.repository.GameRepository;
 import pl.wojak.geoquiz.repository.GuessedRepository;
@@ -18,7 +19,6 @@ import pl.wojak.geoquiz.repository.GuessedRepository;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,26 +61,39 @@ public class GameService implements CrudService<GameEntity> {
             setGameNumberForSpecificPlayer(user.getId(), game);
             gameRepository.save(game);
         }
-        setGameParamFormAndAddToModel(model);
-
+        GameParamFormDTO gameParamFormDTO = new GameParamFormDTO();
+        model.addAttribute("gameParamFormDTO", gameParamFormDTO);
+        model.addAttribute("continents", gameParamFormDTO.getContinents());
         model.addAttribute("game", game);
     }
 
-    private void setGameParamFormAndAddToModel(Model model) {
-        GameParamFormDTO gameParamFormDTO = new GameParamFormDTO();
-//        List<String> continents = countryRepository.findListOfContinents();
-//        continents.add("Cały Świat");
-        List<AreaEnum> continents = Arrays.asList(AreaEnum.values());
-        model.addAttribute("continents",continents);
-        model.addAttribute("gameParamFormDTO", gameParamFormDTO);
-    }
 
     private void setGameNumberForSpecificPlayer(Long userId, GameEntity game) {
         Long userGameId = gameRepository.findLastGameForSpecificPlayer(userId);
         if (userGameId == null) {
-            userGameId = 1L;
+            userGameId = 0L;
         }
         game.setUserGameId(userGameId + 1L);
+    }
+
+    public void newGameWithParams(GameParamFormDTO gameParamFormDTO, Model model, HttpSession ses) {
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        GameEntity game = (GameEntity) ses.getAttribute("game");
+
+        AreaEnum area = gameParamFormDTO.getContinents().get(0);
+        DifficultyLevelEnum level = gameParamFormDTO.getLevels().get(0);
+
+        if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
+            game = gameRepository.findById(game.getId()).orElseThrow(NullPointerException::new);
+        }
+        game.setArea(area);
+        game.setLevel(level);
+
+        if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
+            game.setModificationDate(LocalDateTime.now());
+            gameRepository.save(game);
+        }
+        findRandom3CountriesAndAddToModel(game, model, user);
     }
 
     public List<CountryDTO> game(UserEntity user, GameEntity game, Model model) {
@@ -88,17 +101,21 @@ public class GameService implements CrudService<GameEntity> {
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game = gameRepository.findById(game.getId()).orElseThrow(NullPointerException::new);
         }
-        List<CountryDTO> countriesDTO = findRandom3CountriesforOneGame(game);
-        model.addAttribute("game", game);
-        model.addAttribute("countryForm", new CountryFormDTO(countriesDTO));
+        List<CountryDTO> countriesDTO = findRandom3CountriesAndAddToModel(game, model, user);
         return countriesDTO;
     }
 
-    private List<CountryDTO> findRandom3CountriesforOneGame(GameEntity game) {
+    private List<CountryDTO> findRandom3CountriesAndAddToModel(GameEntity game, Model model, UserEntity user) {
         List<CountryDTO> countriesDTO = new ArrayList<>();
-        List<CountryEntity> countries = countryRepository.findRandom3CountriesForOneGame(game.getId());
-
+        List<CountryEntity> countries;
+        if (game.getArea().equals(AreaEnum.CALY_SWIAT)) {
+            countries = countryRepository.findRandom3CountriesForWholeWorld(game.getId(), game.getLevel().getKod());
+        } else {
+            countries = countryRepository.findRandom3CountriesForOneContinent(game.getId(), game.getArea().getName(), game.getLevel().getKod());
+        }
         countriesDTO.addAll(countries.stream().map(this::apply).collect(Collectors.toList()));
+        model.addAttribute("game", game);
+        model.addAttribute("countryForm", new CountryFormDTO(countriesDTO));
         return countriesDTO;
     }
 

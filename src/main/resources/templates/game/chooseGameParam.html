@@ -45,7 +45,7 @@
             </h3>
 
             <h3 th:text="'Wybierz poziom trudności: '"></h3>
-            <td th:each="level : ${T(pl.wojak.geoquiz.enums.DifficultyLevelEnum).values()}">
+            <td th:each="level : *{levels}">
                 <input type="radio" th:id="${{level}}" th:value="${{level}}" th:field="*{levels}"/>
                 <label th:for="${{level}}" th:text="${{level.name}}"></label>
             </td>
@@ -53,8 +53,6 @@
                 <input type="submit" value="Graj!">
             </div>
         </form>
-
-
     </div>
 
 
@@ -71,18 +69,5 @@
 </html>
 
 
-<!--<h3>-->
-<!--<label th:text="'Wybierz zakres gry:&nbsp;&nbsp;'"></label>-->
-<!--<select th:field="*{gameParamFormDTO.continents}">-->
-<!--<option-->
-<!--th:each="continent: ${gameParamFormDTO.continents}"-->
-<!--th:value="${continent}"-->
-<!--th:text="${continent}"></option>-->
-<!--</select>-->
-<!--</h3>-->
-
-<!--<h3 th:text="'Wybierz poziom trudności: '"></h3>-->
+<!--Sposób na wyciągnięcie enumów:-->
 <!--<td th:each="level : ${T(pl.wojak.geoquiz.enums.DifficultyLevelEnum).values()}">-->
-<!--<input type="radio" th:id="${{level}}" th:value="${{level}}" th:field="*{gameParamFormDTO.levels}"/>-->
-<!--<label th:for="${{level}}" th:text="${{level.name}}"></label>-->
-<!--</td>-->
