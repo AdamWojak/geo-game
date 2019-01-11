@@ -18,10 +18,10 @@ public interface CountryRepository extends CrudRepository<CountryEntity, Long> {
     @Query(value = "select * from geo_schema.country where id not in(select country_id from geo_schema.guessed g where g.game_id=?1) order by random() limit 3", nativeQuery = true)
     List<CountryEntity> findRandom3CountriesForOneGame(Long id);
 
-    @Query(value = "select * from geo_schema.country where continent=?2 and level=?3 and id not in(select country_id from geo_schema.guessed g where g.game_id=?1) order by random() limit 3", nativeQuery = true)
+    @Query(value = "select * from geo_schema.country where continent=?2 and level<=?3 and id not in(select country_id from geo_schema.guessed g where g.game_id=?1) order by random() limit 3", nativeQuery = true)
     List<CountryEntity> findRandom3CountriesForOneContinent(Long id, String continent, Integer level);
 
-    @Query(value = "select * from geo_schema.country where level=?2 and id not in(select country_id from geo_schema.guessed g where g.game_id=?1) order by random() limit 3", nativeQuery = true)
+    @Query(value = "select * from geo_schema.country where level<=?2 and id not in(select country_id from geo_schema.guessed g where g.game_id=?1) order by random() limit 3", nativeQuery = true)
     List<CountryEntity> findRandom3CountriesForWholeWorld (Long id, Integer level);
 
     CountryEntity findCountryById(Long id);
