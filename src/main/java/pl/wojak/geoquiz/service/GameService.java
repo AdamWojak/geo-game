@@ -59,7 +59,7 @@ public class GameService implements CrudService<GameEntity> {
         } else {
             game = new GameEntity(user);
             setGameNumberForSpecificPlayer(user.getId(), game);
-            gameRepository.save(game);
+
         }
         GameParamFormDTO gameParamFormDTO = new GameParamFormDTO();
         model.addAttribute("gameParamFormDTO", gameParamFormDTO);
