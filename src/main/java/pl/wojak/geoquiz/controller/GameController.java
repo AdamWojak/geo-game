@@ -93,7 +93,6 @@ public class GameController {
 
     @GetMapping("/delete")
     public String deleteSavedGame(@RequestParam(name = "id") Long id) {
-        System.out.println(id);
         gameService.deleteSavedGame(id);
         return "redirect:/game/saved";
     }
