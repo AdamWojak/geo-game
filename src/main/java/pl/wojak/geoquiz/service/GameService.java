@@ -170,7 +170,7 @@ public class GameService implements CrudService<GameEntity> {
         model.addAttribute("amountOfAttempts", amountOfAttempts);
     }
 
-    public void createListOfSavedGames(UserEntity user, GameEntity game, Model model) {
+    public List<GameEntity> createListOfSavedGames(UserEntity user, GameEntity game, Model model) {
         List<GameEntity> games = new ArrayList<>();
 
         if (user.getUserName().equals(ANONYMOUS_NAME)) {
@@ -180,6 +180,7 @@ public class GameService implements CrudService<GameEntity> {
             games = gameRepository.findAllGamesByUserId(user.getId());
         }
         model.addAttribute("games", games);
+        return games;
     }
 
 

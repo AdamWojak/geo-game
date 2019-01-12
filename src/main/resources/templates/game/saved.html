@@ -35,6 +35,8 @@
                 <th>Ilość punktów:</th>
                 <th>Ilość prób:</th>
                 <th>Data:</th>
+                <th>Poziom:</th>
+                <th>Obszar:</th>
                 <th>Akcja:</th>
             </tr>
             <th:block th:each="game :${games}">
@@ -43,6 +45,8 @@
                     <td th:text="${game.amountOfPoints}"></td>
                     <td th:text="${game.amountOfAttempts}"></td>
                     <td th:text="${#temporals.format(game.modificationDate, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${game.level}"></td>
+                    <td th:text="${game.area}"></td>
                     <td>
                         <span th:if="${user.userName == T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
                             <a class="noneDecoration" th:href="@{/game/load(id=${game.id})}">Wczytaj</a>

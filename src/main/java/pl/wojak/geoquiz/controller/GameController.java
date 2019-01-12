@@ -76,8 +76,8 @@ public class GameController {
         if (user == null || user.getUserName() == null || user.getUserName() == ANONYMOUS_NAME && game == null) {
             return "game/noActiveGame";
         } else {
-            gameService.createListOfSavedGames(user, game, model);
-            if (game == null) {
+            List<GameEntity> games = gameService.createListOfSavedGames(user, game, model);
+            if (games == null) {
                 return "game/noSavedGames";
             }
         }
