@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Zaloguj się</title>
+    <title>GEO-QUIZ</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styleRegisterLogin.css}"/>
 </head>
@@ -11,29 +11,37 @@
     <div class="form">
         <form action="#" th:action="@{/user/login}" th:object="${user}" method="post">
             <fieldset>
-                <legend> Formularz logowania:</legend>
+                <legend th:text="#{user.loginForm}"></legend>
                 <p style="color:green;" th:text="${registered}" th:unless="${registered == null}"></p>
-                <input th:field="*{userName}" type="text" placeholder="login"/>
+                <input th:field="*{userName}" th:type="text" th:placeholder="#{user.loginPlaceholder}"/>
                 <errors th:field="*{userName}" class="error"/>
-                <input th:field="*{password}" type="password" placeholder="hasło"/>
+                <input th:field="*{password}" th:type="password" th:placeholder="#{user.passwordPlaceholder}"/>
                 <errors th:field="*{password}" class="error"/>
                 <p th:text="${zle}" th:unless="${zle == null}"></p>
+                <input type="submit" th:value="#{login}"/>
 
-                <input type="submit" value="Zaloguj"/>
-                <label class="label">
-                    <!-- to work through that link, it has to be @RequestMapping in LoginController - register -->
-                    Nie masz konta: &nbsp; <a href="register"> Zarejestruj się </a>
-                </label>
+                <!--<label class="label">-->
+                <!--&lt;!&ndash; to work through that link, it has to be @RequestMapping in LoginController - register &ndash;&gt;-->
+                <!--Nie masz konta: &nbsp; <a href="register"> Zarejestruj się </a>-->
+                <!--</label>-->
+                <label class="label" th:text="#{user.noAccount}"></label>
+                <a th:href="register">
+                    <label th:text="#{register}">
+                        <!--<a th:href="register"> <span th:text="#{register}"> view </span> </a>-->
+                    </label>
+                </a>
+                <!-- to work through that link, it has to be @RequestMapping in LoginController - register -->
+
             </fieldset>
         </form>
     </div>
 
     <div class="options margin-top">
-        <a href="../game/newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../game/saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../game/end"> Koniec </a>
+        <a href="../game/newgame" th:text="#{footer.newgame}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../game/saved" th:text="#{footer.saved}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="/geoquiz" th:text="#{footer.mainPage}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../funfact/all" th:text="#{footer.quiz}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../game/end" th:text="#{footer.end}"> </a>
     </div>
 </div>
 
