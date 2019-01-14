@@ -11,7 +11,6 @@ import pl.wojak.geoquiz.entity.GameEntity;
 import pl.wojak.geoquiz.entity.GuessedEntity;
 import pl.wojak.geoquiz.entity.UserEntity;
 import pl.wojak.geoquiz.enums.AreaEnum;
-import pl.wojak.geoquiz.enums.DifficultyLevelEnum;
 import pl.wojak.geoquiz.repository.CountryRepository;
 import pl.wojak.geoquiz.repository.GameRepository;
 import pl.wojak.geoquiz.repository.GuessedRepository;
@@ -80,14 +79,8 @@ public class GameService implements CrudService<GameEntity> {
         UserEntity user = (UserEntity) ses.getAttribute("user");
         GameEntity game = (GameEntity) ses.getAttribute("game");
 
-        AreaEnum area = gameParamFormDTO.getContinents().get(0);
-        DifficultyLevelEnum level = gameParamFormDTO.getLevels().get(0);
-
-        if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
-            game = gameRepository.findById(game.getId()).orElseThrow(NullPointerException::new);
-        }
-        game.setArea(area);
-        game.setLevel(level);
+        game.setArea(gameParamFormDTO.getContinents().get(0));
+        game.setLevel(gameParamFormDTO.getLevels().get(0));
 
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game.setModificationDate(LocalDateTime.now());
