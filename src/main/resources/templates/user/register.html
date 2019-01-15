@@ -13,19 +13,20 @@
         <form action="#" th:action="@{/user/register}" th:object="${user}" method="post">
             <errors path="*"></errors>
             <fieldset>
-                <legend> Formularz rejestracji:</legend>
-                <input th:field="*{userName}" type="text" placeholder="login"/>
-                <errors th:field="*{userName}" class="error"/>
-                <input th:field="*{email}" type="email" placeholder="email"/>
-                <errors th:field="*{email}" class="error"/>
-                <input th:field="*{password}" type="password" placeholder="hasło"/>
-                <errors th:field="*{password}" class="error"/>
-                <input th:field="*{verifiedPassword}" type="password" placeholder="powtórz hasło"/>
-                <errors path="verifiedPassword" class="error"/>
-                <input type="submit" value="Zarejestruj się">
+                <legend th:text="#{user.registerForm}"></legend>
+                <input th:field="*{userName}" th:type="text" th:placeholder="#{user.loginPlaceholder}"/>
+                <errors th:field="*{userName}" class="error"></errors>
+                <input th:field="*{email}" th:type="email" th:placeholder="#{user.emailPlaceholder}"/>
+                <errors th:field="*{email}" class="error"></errors>
+                <input th:field="*{password}" th:type="password" th:placeholder="#{user.passwordPlaceholder}"/>
+                <errors th:field="*{password}" class="error"></errors>
+                <input th:field="*{verifiedPassword}" th:type="password" th:placeholder="#{user.repeatPasswordPlaceholder}"/>
+                <errors path="verifiedPassword" class="error"></errors>
+                <input th:type="submit" th:value="#{register}">
 
-                <label class="label">
-                    Masz konto: &nbsp; <a href="login"> Zaloguj się </a>
+                <label>
+                    <span th:text="#{user.haveAccount}"></span>
+                    <a th:href="@{login}"><b th:text="#{login}"></b> </a>
                 </label>
 
             </fieldset>

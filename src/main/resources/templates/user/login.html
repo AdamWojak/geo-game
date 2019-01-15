@@ -19,11 +19,13 @@
                 <input th:field="*{password}" th:type="password" th:placeholder="#{user.passwordPlaceholder}"/>
                 <errors th:field="*{password}" class="error"></errors>
                 <p th:text="${zle}" th:unless="${zle == null}"></p>
-                <input type="submit" th:value="#{login}"/>
+                <input th:type="submit" th:value="#{login}"/>
 
-                <span th:text="#{user.noAccount}"></span>
-                <a href="register" th:href="@{register}"><b th:text="#{register}"></b> </a>
-                
+                <label>
+                    <span th:text="#{user.noAccount}"></span>
+                    <a th:href="@{register}"><b th:text="#{register}"></b> </a>
+                </label>
+
             </fieldset>
         </form>
     </div>
