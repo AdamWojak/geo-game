@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.wojak.geoquiz.dto.CountryDTO;
 import pl.wojak.geoquiz.dto.CountryFormDTO;
+import pl.wojak.geoquiz.dto.GameParamFormDTO;
 import pl.wojak.geoquiz.entity.GameEntity;
 import pl.wojak.geoquiz.entity.UserEntity;
 import pl.wojak.geoquiz.service.GameService;
@@ -23,16 +24,20 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
-
     @GetMapping("/newgame")
     public String newGame(Model model, HttpSession ses) {
 
-        CountryFormDTO countryForm = gameService.newGame(model, ses);
-        if (countryForm.getCountriesFormDTO().isEmpty()) {
-            return "game/win";
-        } else {
-            return "game/form01";
-        }
+        gameService.newGame(model, ses);
+
+        return "game/chooseGameParam";
+    }
+
+    @PostMapping("/newgame")
+    public String newGameWithParams(@ModelAttribute("gameParamFormDTO") GameParamFormDTO gameParamFormDTO, Model model, HttpSession ses) {
+
+        gameService.newGameWithParams(gameParamFormDTO, model, ses);
+        return "game/form01";
+
     }
 
     @GetMapping("/form")
@@ -41,7 +46,7 @@ public class GameController {
         UserEntity user = (UserEntity) ses.getAttribute("user");
         GameEntity game = (GameEntity) ses.getAttribute("game");
 
-        if(user== null && game == null){
+        if (user == null && game == null) {
             return "game/noActiveGame";
         }
 
@@ -61,17 +66,21 @@ public class GameController {
         return "game/form02";
     }
 
+
     @RequestMapping("/saved")
     public String showAllGamesByUserName(Model model, HttpSession ses) {
 
         UserEntity user = (UserEntity) ses.getAttribute("user");
         GameEntity game = (GameEntity) ses.getAttribute("game");
 
-        if ( user == null || user.getUserName() == null || user.getUserName() == ANONYMOUS_NAME && game == null) {
+        if (user == null
+                || user.getUserName() == null
+                || user.getUserName() == ANONYMOUS_NAME && game == null
+                || user.getUserName() == ANONYMOUS_NAME && game.getLevel() == null) {
             return "game/noActiveGame";
         } else {
-            gameService.createListOfSavedGames(user, game, model);
-            if (game == null) {
+            List<GameEntity> games = gameService.createListOfSavedGames(user, game, model);
+            if (games == null) {
                 return "game/noSavedGames";
             }
         }
@@ -87,7 +96,6 @@ public class GameController {
 
     @GetMapping("/delete")
     public String deleteSavedGame(@RequestParam(name = "id") Long id) {
-        System.out.println(id);
         gameService.deleteSavedGame(id);
         return "redirect:/game/saved";
     }

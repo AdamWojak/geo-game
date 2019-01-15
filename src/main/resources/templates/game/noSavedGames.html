@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Wczytaj grę</title>
+    <title>GEO-QUIZ</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}"/>
 </head>
@@ -10,31 +10,31 @@
 
     <div id="login" th:switch="${user.userName}">
         <span th:case="${T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
-            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
-            <a href="../user/register"> Zarejestruj się </a>
+            <a href="../user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
+            <a href="../user/register" th:text="#{register}">  </a>
         </span>
         <span th:case="null">
-            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
-            <a href="../user/register"> Zarejestruj się </a>
+            <a href="../user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
+            <a href="../user/register" th:text="#{register}"> </a>
         </span>
         <span th:case="*">
             <span th:text="${user.userName}+ '&nbsp;||&nbsp;'" th:remove="tag"></span>
-            <a href="../user/logout"> (Wyloguj) </a>
+            <a href="../user/logout" th:text="#{logout}"> </a>
         </span>
     </div>
 
     <div id="main">
-        <h1>GRA GEO-QUIZ: Państwa - Stolice</h1>
+        <h1 th:text="#{index.title}"></h1>
 
-        <h2>Nie masz żadnej zapisanej gry.</h2>
+        <h2 th:text="#{game.noSavedGame}"></h2>
     </div>
 
     <div id="footer">
-        <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="end"> Koniec </a>
+        <a href="newgame" th:text="#{footer.newgame}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="saved" th:text="#{footer.saved}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="/geoquiz" th:text="#{footer.mainPage}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../funfact/all" th:text="#{footer.quiz}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="end" th:text="#{footer.end}"> </a>
     </div>
 
 

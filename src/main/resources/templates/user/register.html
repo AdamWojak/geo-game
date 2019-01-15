@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Zarejestruj się</title>
+    <title>GEO-QUIZ</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styleRegisterLogin.css}"/>
 </head>
@@ -13,19 +13,20 @@
         <form action="#" th:action="@{/user/register}" th:object="${user}" method="post">
             <errors path="*"></errors>
             <fieldset>
-                <legend> Formularz rejestracji:</legend>
-                <input th:field="*{userName}" type="text" placeholder="login"/>
-                <errors th:field="*{userName}" class="error"/>
-                <input th:field="*{email}" type="email" placeholder="email"/>
-                <errors th:field="*{email}" class="error"/>
-                <input th:field="*{password}" type="password" placeholder="hasło"/>
-                <errors th:field="*{password}" class="error"/>
-                <input th:field="*{verifiedPassword}" type="password" placeholder="powtórz hasło"/>
-                <errors path="verifiedPassword" class="error"/>
-                <input type="submit" value="Zarejestruj się">
+                <legend th:text="#{user.registerForm}"></legend>
+                <input th:field="*{userName}" th:type="text" th:placeholder="#{placeholder.login}"/>
+                <errors th:field="*{userName}" class="error"></errors>
+                <input th:field="*{email}" th:type="email" th:placeholder="#{placeholder.email}"/>
+                <errors th:field="*{email}" class="error"></errors>
+                <input th:field="*{password}" th:type="password" th:placeholder="#{placeholder.password}"/>
+                <errors th:field="*{password}" class="error"></errors>
+                <input th:field="*{verifiedPassword}" th:type="password" th:placeholder="#{placeholder.confirmPassword}"/>
+                <errors path="verifiedPassword" class="error"></errors>
+                <input th:type="submit" th:value="#{register}">
 
-                <label class="label">
-                    Masz konto: &nbsp; <a href="login"> Zaloguj się </a>
+                <label>
+                    <span th:text="#{user.haveAccount}"></span>
+                    <a th:href="@{login}"><b th:text="#{login}"></b> </a>
                 </label>
 
             </fieldset>
@@ -33,11 +34,11 @@
     </div>
 
     <div class="options margin-top">
-        <a href="../game/newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../game/saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../game/end"> Koniec </a>
+        <a href="../game/newgame" th:text="#{footer.newgame}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../game/saved" th:text="#{footer.saved}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="/geoquiz" th:text="#{footer.mainPage}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../funfact/all" th:text="#{footer.quiz}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../game/end" th:text="#{footer.end}"> </a>
     </div>
 
 </div>

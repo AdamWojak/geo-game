@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Wylogowano</title>
+    <title>GEO-QUIZ</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}"/>
 </head>
@@ -11,13 +11,13 @@
 
     <div id="main">
 
-        <h1>GRA GEO-QUIZ: Państwa - Stolice</h1>
-        <h2>Nastąpiło poprawne wylogowanie.</h2>
+        <h1 th:text="#{index.title}"></h1>
+        <h2 th:text="#{user.loggedout}"></h2>
         <br> <br>
 
         <div>
             <h1>
-                <a href="/geoquiz"> Strona Główna </a>
+                <a href="/geoquiz" th:text="#{footer.mainPage}"> </a>
             </h1>
         </div>
     </div>

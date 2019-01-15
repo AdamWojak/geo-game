@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import pl.wojak.geoquiz.converter.DifficultyLevelConverter;
+import pl.wojak.geoquiz.enums.DifficultyLevelEnum;
 
 import javax.persistence.*;
 
@@ -25,4 +27,8 @@ public class CountryEntity {
     private String countryName;
 
     private String capital;
+
+    @Column(name = "level", columnDefinition = "integer")
+    @Convert(converter = DifficultyLevelConverter.class)
+    private DifficultyLevelEnum level;
 }

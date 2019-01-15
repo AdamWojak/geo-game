@@ -1,26 +1,35 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head>
     <title>GEO-QUIZ</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/styleIndex.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 <body>
 
 <div id="container">
 
     <div id="login" th:switch="${user.userName}">
+        <span th:text="#{lang.change}"></span>:
+        <select id="locales">
+            <option value=""></option>
+            <option value="en" th:text="#{lang.eng}"></option>
+            <option value="pl" th:text="#{lang.pl}"></option>
+        </select>
+
+
         <span th:case="${T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
-            <a href="user/login"> Zaloguj </a> &nbsp; || &nbsp;
-            <a href="user/register"> Zarejestruj się </a>
+            <a href="../user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
+            <a href="../user/register" th:text="#{register}">  </a>
         </span>
         <span th:case="null">
-            <a href="user/login"> Zaloguj </a> &nbsp; || &nbsp;
-            <a href="user/register"> Zarejestruj się </a>
+            <a href="../user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
+            <a href="../user/register" th:text="#{register}"> </a>
         </span>
         <span th:case="*">
             <span th:text="${user.userName}+ '&nbsp;||&nbsp;'" th:remove="tag"></span>
-            <a href="../user/logout"> (Wyloguj) </a>
+            <a href="../user/logout" th:text="#{logout}"> </a>
         </span>
     </div>
 
@@ -28,8 +37,8 @@
     <div id="main">
 
 
-        <h1>GEO-QUIZ: Państwa - Stolice</h1>
-        <h2 th:text="${user.userName == null} ? 'Cześć!' : 'Cześć ' + ${user.userName} + '!'"></h2>
+        <h1 th:text="#{index.title}"></h1>
+        <h2 th:text="${user.userName == null} ? #{index.hi} : #{index.hiUsername(${user.userName})}"></h2>
 
 
         <br>
@@ -39,19 +48,31 @@
         </div>
 
 
-        <h2>Miłej zabawy :-)</h2>
+        <h2 th:text="#{index.haveFun}"></h2>
         <p>Adam Wojak</p>
     </div>
 
     <div id="footer">
-        <a href="game/newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="game/saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="game/end"> Koniec </a>
+        <a href="game/newgame" th:text="#{footer.newgame}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="game/saved" th:text="#{footer.saved}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="/geoquiz" th:text="#{footer.mainPage}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="funfact/all" th:text="#{footer.quiz}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="game/end" th:text="#{footer.end}"> </a>
     </div>
 
 </div>
 
 </body>
+
+<script type="text/javascript">
+          $(document).ready(function () {
+              $("#locales").change(function () {
+                  var selectedOption = $('#locales').val();
+                  if (selectedOption != '') {
+                      window.location.replace('?lang=' + selectedOption);
+                  }
+              });
+          });
+      </script>
+
 </html>

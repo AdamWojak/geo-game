@@ -30,29 +30,31 @@
 
     <div class="main">
         <h1 th:text="#{index.title}"></h1>
-        <h2 th:text="'Użytkowniku '+${user.userName}+' podaj stolicę danego państwa:'"></h2>
+        <br>
+        <br>
 
+        <form action="#" th:action="@{/game/newgame}" th:object="${gameParamFormDTO}" method="post">
+            <h3>
+                <label th:text="#{game.param.area}"></label>
+                <select th:field="*{continents}">
+                    <option
+                            th:each="continent: ${continents}"
+                            th:value="${continent}"
+                            th:text="${continent.name}"></option>
+                </select>
+            </h3>
 
-        <form action="#" th:action="@{/game/form}" th:object="${countryForm}" method="post">
-            <table>
-                <th:block th:each="country, itemStat : *{countriesFormDTO}">
-                    <tr>
-                        <td th:text="${country.countryName}"></td>
-                        <td>-</td>
-                        <td><input th:field="*{countriesFormDTO[__${itemStat.index}__].guessedCapital}" th:type="text" th:placeholder="#{placeholder.capital}"></td>
-                    </tr>
-                </th:block>
-                <tr>
-                    <td colspan="3"><input type="submit" th:value="#{button.check}"></td>
-                </tr>
-            </table>
+            <h3 th:text="#{game.param.level}"></h3>
+            <td th:each="level : *{levels}">
+                <input type="radio" th:id="${{level}}" th:value="${{level}}" th:field="*{levels}"/>
+                <label th:for="${{level}}" th:text="${{level.name}}"></label>
+            </td>
+            <div>
+                <input type="submit" th:value="#{button.play}">
+            </div>
         </form>
-
-
-        <div class="center margin-top">
-            <p th:text="${game == null} ? '' : #{game.points(${game.amountOfPoints},${game.amountOfAttempts})}"></p>
-        </div>
     </div>
+
 
     <div id="footer">
         <a href="newgame" th:text="#{footer.newgame}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
@@ -66,3 +68,6 @@
 </body>
 </html>
 
+
+<!--Sposób na wyciągnięcie enumów:-->
+<!--<td th:each="level : ${T(pl.wojak.geoquiz.enums.DifficultyLevelEnum).values()}">-->

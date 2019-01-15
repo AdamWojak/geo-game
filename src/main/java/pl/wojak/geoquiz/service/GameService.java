@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import pl.wojak.geoquiz.dto.CountryDTO;
 import pl.wojak.geoquiz.dto.CountryFormDTO;
+import pl.wojak.geoquiz.dto.GameParamFormDTO;
 import pl.wojak.geoquiz.entity.CountryEntity;
 import pl.wojak.geoquiz.entity.GameEntity;
 import pl.wojak.geoquiz.entity.GuessedEntity;
 import pl.wojak.geoquiz.entity.UserEntity;
+import pl.wojak.geoquiz.enums.AreaEnum;
 import pl.wojak.geoquiz.repository.CountryRepository;
 import pl.wojak.geoquiz.repository.GameRepository;
 import pl.wojak.geoquiz.repository.GuessedRepository;
@@ -43,7 +45,7 @@ public class GameService implements CrudService<GameEntity> {
     }
 
 
-    public CountryFormDTO newGame(Model model, HttpSession ses) {
+    public void newGame(Model model, HttpSession ses) {
         UserEntity user = (UserEntity) ses.getAttribute("user");
         model.addAttribute("user", user);
         if (user == null || user.getUserName() == null) {
@@ -56,23 +58,35 @@ public class GameService implements CrudService<GameEntity> {
         } else {
             game = new GameEntity(user);
             setGameNumberForSpecificPlayer(user.getId(), game);
-            gameRepository.save(game);
+
         }
-
-        List<CountryDTO> countriesDTO = findRandom3CountriesforOneGame(game);
-        CountryFormDTO countryForm = new CountryFormDTO(countriesDTO);
-
-        model.addAttribute("countryForm", countryForm);
+        GameParamFormDTO gameParamFormDTO = new GameParamFormDTO();
+        model.addAttribute("gameParamFormDTO", gameParamFormDTO);
+        model.addAttribute("continents", gameParamFormDTO.getContinents());
         model.addAttribute("game", game);
-        return countryForm;
     }
+
 
     private void setGameNumberForSpecificPlayer(Long userId, GameEntity game) {
         Long userGameId = gameRepository.findLastGameForSpecificPlayer(userId);
         if (userGameId == null) {
-            userGameId = 1L;
+            userGameId = 0L;
         }
         game.setUserGameId(userGameId + 1L);
+    }
+
+    public void newGameWithParams(GameParamFormDTO gameParamFormDTO, Model model, HttpSession ses) {
+        UserEntity user = (UserEntity) ses.getAttribute("user");
+        GameEntity game = (GameEntity) ses.getAttribute("game");
+
+        game.setArea(gameParamFormDTO.getContinents().get(0));
+        game.setLevel(gameParamFormDTO.getLevels().get(0));
+
+        if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
+            game.setModificationDate(LocalDateTime.now());
+            gameRepository.save(game);
+        }
+        findRandom3CountriesAndAddToModel(game, model, user);
     }
 
     public List<CountryDTO> game(UserEntity user, GameEntity game, Model model) {
@@ -80,17 +94,21 @@ public class GameService implements CrudService<GameEntity> {
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game = gameRepository.findById(game.getId()).orElseThrow(NullPointerException::new);
         }
-        List<CountryDTO> countriesDTO = findRandom3CountriesforOneGame(game);
-        model.addAttribute("game", game);
-        model.addAttribute("countryForm", new CountryFormDTO(countriesDTO));
+        List<CountryDTO> countriesDTO = findRandom3CountriesAndAddToModel(game, model, user);
         return countriesDTO;
     }
 
-    private List<CountryDTO> findRandom3CountriesforOneGame(GameEntity game) {
+    private List<CountryDTO> findRandom3CountriesAndAddToModel(GameEntity game, Model model, UserEntity user) {
         List<CountryDTO> countriesDTO = new ArrayList<>();
-        List<CountryEntity> countries = countryRepository.findRandom3CountriesForOneGame(game.getId());
-
+        List<CountryEntity> countries;
+        if (game.getArea().equals(AreaEnum.CALY_SWIAT)) {
+            countries = countryRepository.findRandom3CountriesForWholeWorld(game.getId(), game.getLevel().getKod());
+        } else {
+            countries = countryRepository.findRandom3CountriesForOneContinent(game.getId(), game.getArea().getName(), game.getLevel().getKod());
+        }
         countriesDTO.addAll(countries.stream().map(this::apply).collect(Collectors.toList()));
+        model.addAttribute("game", game);
+        model.addAttribute("countryForm", new CountryFormDTO(countriesDTO));
         return countriesDTO;
     }
 
@@ -145,7 +163,7 @@ public class GameService implements CrudService<GameEntity> {
         model.addAttribute("amountOfAttempts", amountOfAttempts);
     }
 
-    public void createListOfSavedGames(UserEntity user, GameEntity game, Model model) {
+    public List<GameEntity> createListOfSavedGames(UserEntity user, GameEntity game, Model model) {
         List<GameEntity> games = new ArrayList<>();
 
         if (user.getUserName().equals(ANONYMOUS_NAME)) {
@@ -155,6 +173,7 @@ public class GameService implements CrudService<GameEntity> {
             games = gameRepository.findAllGamesByUserId(user.getId());
         }
         model.addAttribute("games", games);
+        return games;
     }
 
 
