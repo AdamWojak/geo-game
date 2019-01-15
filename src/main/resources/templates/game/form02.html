@@ -13,31 +13,31 @@
 
     <div class="login" th:switch="${user.userName}">
         <span th:case="${T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
-            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
-            <a href="../user/register"> Zarejestruj się </a>
+            <a href="../user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
+            <a href="../user/register" th:text="#{register}">  </a>
         </span>
         <span th:case="null">
-            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
-            <a href="../user/register"> Zarejestruj się </a>
+            <a href="../user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
+            <a href="../user/register" th:text="#{register}"> </a>
         </span>
         <span th:case="*">
             <span th:text="${user.userName}+ '&nbsp;||&nbsp;'" th:remove="tag"></span>
-            <a href="../user/logout"> (Wyloguj) </a>
+            <a href="../user/logout" th:text="#{logout}"> </a>
         </span>
     </div>
 
     <div class="main">
 
-        <h1>GEO-QUIZ: Państwa - Stolice</h1>
+        <h1 th:text="#{index.title}"></h1>
         <h2>Stolice danego państwa:</h2>
 
         <form action="#" th:action="@{/game/form}" th:object="${countryForm}" method="post">
             <table class="form">
                 <tr>
-                    <th>PAŃSTWO:</th>
-                    <th>STOLICA:</th>
-                    <th>TWOJA ODP:</th>
-                    <th>POPRAWNIE:</th>
+                    <th th:text="#{label.country }"></th>
+                    <th th:text="#{label.capital }"></th>
+                    <th th:text="#{label.answer }"></th>
+                    <th th:text="#{label.correct }"></th>
                 </tr>
                 <th:block th:each="country, itemStat : *{countriesFormDTO}">
                     <tr>
@@ -50,7 +50,7 @@
                 </th:block>
                 <tr>
                     <td colspan="4" class="amounts center">
-                        <p th:text="'Liczba punktów: '+ ${amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp; Liczba prób:'+${amountOfAttempts}"></p>
+                        <p th:text="#{game.points(${game.amountOfPoints},${game.amountOfAttempts})}"></p>
                     </td>
                 </tr>
             </table>
@@ -58,25 +58,24 @@
         </form>
 
         <div class="center margin-top">
-            <p th:text="'Całkowita liczba punktów: '+ ${game.amountOfPoints} + '&nbsp;&nbsp;|&nbsp;&nbsp; Całkowita liczba prób:'+${game.amountOfAttempts}"></p>
+            <p th:text="#{game.allPoints(${game.amountOfPoints},${game.amountOfAttempts})}"></p>
         </div>
         <div class="options margin-top">
             <h2>
-                <a href="form"> Graj dalej! </a>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="end"> Koniec gry </a>
+                <a href="form" th:text="#{button.playFurther}"> </a>
+                &nbsp;&nbsp; | &nbsp;&nbsp;
+                <a href="/game/ended" th:text="#{button.end}"> </a>
             </h2>
         </div>
     </div>
 
 
     <div id="footer">
-        <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="end"> Koniec </a>
-
+        <a href="newgame" th:text="#{footer.newgame}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="saved" th:text="#{footer.saved}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="/geoquiz" th:text="#{footer.mainPage}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../funfact/all" th:text="#{footer.quiz}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="end" th:text="#{footer.end}"> </a>
     </div>
 
 

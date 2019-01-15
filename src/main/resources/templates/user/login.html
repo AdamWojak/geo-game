@@ -14,9 +14,9 @@
                 <legend th:text="#{user.loginForm}"></legend>
 
                 <p style="color:green;" th:text="${registered}" th:unless="${registered == null}"></p>
-                <input th:field="*{userName}" th:type="text" th:placeholder="#{user.loginPlaceholder}"/>
+                <input th:field="*{userName}" th:type="text" th:placeholder="#{placeholder.login}"/>
                 <errors th:field="*{userName}" class="error"></errors>
-                <input th:field="*{password}" th:type="password" th:placeholder="#{user.passwordPlaceholder}"/>
+                <input th:field="*{password}" th:type="password" th:placeholder="#{placeholder.password}"/>
                 <errors th:field="*{password}" class="error"></errors>
                 <p th:text="${zle}" th:unless="${zle == null}"></p>
                 <input th:type="submit" th:value="#{login}"/>

@@ -10,34 +10,34 @@
 
     <div id="login" th:switch="${user.userName}">
         <span th:case="${T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
-            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
-            <a href="../user/register"> Zarejestruj się </a>
+            <a href="../user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
+            <a href="../user/register" th:text="#{register}">  </a>
         </span>
         <span th:case="null">
-            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
-            <a href="../user/register"> Zarejestruj się </a>
+            <a href="../user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
+            <a href="../user/register" th:text="#{register}"> </a>
         </span>
         <span th:case="*">
             <span th:text="${user.userName}+ '&nbsp;||&nbsp;'" th:remove="tag"></span>
-            <a href="../user/logout"> (Wyloguj) </a>
+            <a href="../user/logout" th:text="#{logout}"> </a>
         </span>
     </div>
 
 
     <div id="main">
-        <h1>GEO-QUIZ: Państwa - Stolice</h1>
+        <h1 th:text="#{index.title}"></h1>
         <br>
-        <h2 th:text="${user.userName} + '! Lista twoich gier:'"></h2>
+        <h2 th:text="#{game.form.list(${user.userName})}"></h2>
         <br>
         <table class="sav">
             <tr>
-                <th>Nr gry:</th>
-                <th>Data:</th>
-                <th>Ilość punktów:</th>
-                <th>Ilość prób:</th>
-                <th>Poziom:</th>
-                <th>Obszar:</th>
-                <th>Akcja:</th>
+                <th th:text="#{label.gameNr}"></th>
+                <th th:text="#{label.date}"></th>
+                <th th:text="#{label.points}"></th>
+                <th th:text="#{label.attempts}"></th>
+                <th th:text="#{label.level}"></th>
+                <th th:text="#{label.area}"></th>
+                <th th:text="#{label.action}"></th>
             </tr>
             <th:block th:each="game :${games}">
                 <tr>
@@ -49,12 +49,12 @@
                     <td th:text="${game.area}"></td>
                     <td>
                         <span th:if="${user.userName == T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
-                            <a class="noneDecoration" th:href="@{/game/load(id=${game.id})}">Wczytaj</a>
+                            <a class="noneDecoration" th:href="@{/game/load(id=${game.id})}" th:text="#{button.load}"></a>
                         </span>
                         <span th:unless="${user.userName ==T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
-                            <a class="noneDecoration" th:href="@{/game/load(id=${game.id})}">Wczytaj</a>
+                            <a class="noneDecoration" th:href="@{/game/load(id=${game.id})}" th:text="#{button.load}"></a>
                             &nbsp; | &nbsp;
-                            <a class="noneDecoration" th:href="@{/game/delete(id=${game.id})}">Usuń</a>
+                            <a class="noneDecoration" th:href="@{/game/delete(id=${game.id})}" th:text="#{button.delete}"></a>
                         </span>
                     </td>
                 </tr>
@@ -63,11 +63,11 @@
     </div>
 
     <div id="footer">
-        <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="saved"> Wczytaj grę </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../funfact/all"> Ciekawostki </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="end"> Koniec </a>
+        <a href="newgame" th:text="#{footer.newgame}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="saved" th:text="#{footer.saved}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="/geoquiz" th:text="#{footer.mainPage}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../funfact/all" th:text="#{footer.quiz}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="end" th:text="#{footer.end}"> </a>
     </div>
 
 

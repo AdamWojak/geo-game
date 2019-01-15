@@ -10,36 +10,36 @@
 
     <div id="login" th:switch="${user.userName}">
         <span th:case="${T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
-            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
-            <a href="../user/register"> Zarejestruj się </a>
+            <a href="../user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
+            <a href="../user/register" th:text="#{register}">  </a>
         </span>
         <span th:case="null">
-            <a href="../user/login"> Zaloguj </a> &nbsp; || &nbsp;
-            <a href="../user/register"> Zarejestruj się </a>
+            <a href="../user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
+            <a href="../user/register" th:text="#{register}"> </a>
         </span>
         <span th:case="*">
             <span th:text="${user.userName}+ '&nbsp;||&nbsp;'" th:remove="tag"></span>
-            <a href="../user/logout"> (Wyloguj) </a>
+            <a href="../user/logout" th:text="#{logout}"> </a>
         </span>
     </div>
 
 
     <div id="main">
-        <h1>GRA GEO-QUIZ: Państwa - Stolice</h1>
-        <h1 th:text="${user == null} ? ' Dzięki za grę!': ${user.userName} + ' Dzięki za grę!'"></h1>
+        <h1 th:text="#{index.title}"></h1>
+        <h1 th:text="${user == null} ? #{game.end.thx}: #{game.end.thxUser(${user.userName})}"></h1>
         <br> <br>
 
         <div class="center">
             <!-- source: personal picture from work in Iran, taken by J.Krawiecki -->
-            <img alt="sunset in Iran:" th:src="@{/img/iran.png}"/>
+            <img th:alt="#{game.end.sunset}" th:src="@{/img/iran.png}"/>
         </div>
 
-        <p>Adam Wojak</p>
+        <p th:text="#{index.autor}"></p>
 
     <div id="footer">
-        <a href="newgame"> Nowa Gra </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="/geoquiz"> Strona Główna </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../funfact/all"> Ciekawostki </a>
+        <a href="newgame" th:text="#{footer.newgame}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="/geoquiz" th:text="#{footer.mainPage}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+        <a href="../funfact/all" th:text="#{footer.quiz}"> </a>
     </div>
 
 

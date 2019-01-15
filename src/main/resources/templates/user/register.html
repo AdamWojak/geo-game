@@ -14,13 +14,13 @@
             <errors path="*"></errors>
             <fieldset>
                 <legend th:text="#{user.registerForm}"></legend>
-                <input th:field="*{userName}" th:type="text" th:placeholder="#{user.loginPlaceholder}"/>
+                <input th:field="*{userName}" th:type="text" th:placeholder="#{placeholder.login}"/>
                 <errors th:field="*{userName}" class="error"></errors>
-                <input th:field="*{email}" th:type="email" th:placeholder="#{user.emailPlaceholder}"/>
+                <input th:field="*{email}" th:type="email" th:placeholder="#{placeholder.email}"/>
                 <errors th:field="*{email}" class="error"></errors>
-                <input th:field="*{password}" th:type="password" th:placeholder="#{user.passwordPlaceholder}"/>
+                <input th:field="*{password}" th:type="password" th:placeholder="#{placeholder.password}"/>
                 <errors th:field="*{password}" class="error"></errors>
-                <input th:field="*{verifiedPassword}" th:type="password" th:placeholder="#{user.repeatPasswordPlaceholder}"/>
+                <input th:field="*{verifiedPassword}" th:type="password" th:placeholder="#{placeholder.confirmPassword}"/>
                 <errors path="verifiedPassword" class="error"></errors>
                 <input th:type="submit" th:value="#{register}">
 

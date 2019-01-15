@@ -73,7 +73,10 @@ public class GameController {
         UserEntity user = (UserEntity) ses.getAttribute("user");
         GameEntity game = (GameEntity) ses.getAttribute("game");
 
-        if (user == null || user.getUserName() == null || user.getUserName() == ANONYMOUS_NAME && game == null) {
+        if (user == null
+                || user.getUserName() == null
+                || user.getUserName() == ANONYMOUS_NAME && game == null
+                || user.getUserName() == ANONYMOUS_NAME && game.getLevel() == null) {
             return "game/noActiveGame";
         } else {
             List<GameEntity> games = gameService.createListOfSavedGames(user, game, model);

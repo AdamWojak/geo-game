@@ -20,12 +20,12 @@
 
 
         <span th:case="${T(pl.wojak.geoquiz.constant).ANONYMOUS_NAME}">
-            <a href="user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
-            <a href="user/register" th:text="#{register}">  </a>
+            <a href="../user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
+            <a href="../user/register" th:text="#{register}">  </a>
         </span>
         <span th:case="null">
-            <a href="user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
-            <a href="user/register" th:text="#{register}"> </a>
+            <a href="../user/login" th:text="#{login}"> </a> &nbsp; || &nbsp;
+            <a href="../user/register" th:text="#{register}"> </a>
         </span>
         <span th:case="*">
             <span th:text="${user.userName}+ '&nbsp;||&nbsp;'" th:remove="tag"></span>
