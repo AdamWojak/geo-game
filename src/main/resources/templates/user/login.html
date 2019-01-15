@@ -12,26 +12,18 @@
         <form action="#" th:action="@{/user/login}" th:object="${user}" method="post">
             <fieldset>
                 <legend th:text="#{user.loginForm}"></legend>
+
                 <p style="color:green;" th:text="${registered}" th:unless="${registered == null}"></p>
                 <input th:field="*{userName}" th:type="text" th:placeholder="#{user.loginPlaceholder}"/>
-                <errors th:field="*{userName}" class="error"/>
+                <errors th:field="*{userName}" class="error"></errors>
                 <input th:field="*{password}" th:type="password" th:placeholder="#{user.passwordPlaceholder}"/>
-                <errors th:field="*{password}" class="error"/>
+                <errors th:field="*{password}" class="error"></errors>
                 <p th:text="${zle}" th:unless="${zle == null}"></p>
                 <input type="submit" th:value="#{login}"/>
 
-                <!--<label class="label">-->
-                <!--&lt;!&ndash; to work through that link, it has to be @RequestMapping in LoginController - register &ndash;&gt;-->
-                <!--Nie masz konta: &nbsp; <a href="register"> Zarejestruj się </a>-->
-                <!--</label>-->
-                <label class="label" th:text="#{user.noAccount}"></label>
-                <a th:href="register">
-                    <label th:text="#{register}">
-                        <!--<a th:href="register"> <span th:text="#{register}"> view </span> </a>-->
-                    </label>
-                </a>
-                <!-- to work through that link, it has to be @RequestMapping in LoginController - register -->
-
+                <span th:text="#{user.noAccount}"></span>
+                <a href="register" th:href="@{register}"><b th:text="#{register}"></b> </a>
+                
             </fieldset>
         </form>
     </div>
