@@ -1,12 +1,14 @@
 package pl.wojak.geoquiz.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
+@Data
 @Table(name = "guessed", schema = "geo_schema")
 @ToString
 @AllArgsConstructor

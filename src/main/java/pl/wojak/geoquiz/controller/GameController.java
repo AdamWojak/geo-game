@@ -50,7 +50,7 @@ public class GameController {
             return "game/noActiveGame";
         }
 
-        List<CountryDTO> countries = gameService.game(user, game, model);
+        List<CountryDTO> countries = gameService.game(user, game, model, ses);
         if (countries.isEmpty()) {
             return "game/win";
         } else {

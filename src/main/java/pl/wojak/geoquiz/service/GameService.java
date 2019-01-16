@@ -86,31 +86,59 @@ public class GameService implements CrudService<GameEntity> {
             game.setModificationDate(LocalDateTime.now());
             gameRepository.save(game);
         }
-        findRandom3CountriesAndAddToModel(game, model, user);
+        findRandom3CountriesAndAddToModel(game, user, model, ses);
     }
 
-    public List<CountryDTO> game(UserEntity user, GameEntity game, Model model) {
+    public List<CountryDTO> game(UserEntity user, GameEntity game, Model model, HttpSession ses) {
 
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game = gameRepository.findById(game.getId()).orElseThrow(NullPointerException::new);
         }
-        List<CountryDTO> countriesDTO = findRandom3CountriesAndAddToModel(game, model, user);
+        List<CountryDTO> countriesDTO = findRandom3CountriesAndAddToModel(game, user, model, ses);
         return countriesDTO;
     }
 
-    private List<CountryDTO> findRandom3CountriesAndAddToModel(GameEntity game, Model model, UserEntity user) {
+    private List<CountryDTO> findRandom3CountriesAndAddToModel(GameEntity game, UserEntity user, Model model, HttpSession ses) {
+
         List<CountryDTO> countriesDTO = new ArrayList<>();
         List<CountryEntity> countries;
-        if (game.getArea().equals(AreaEnum.CALY_SWIAT)) {
-            countries = countryRepository.findRandom3CountriesForWholeWorld(game.getId(), game.getLevel().getKod());
+
+        if (user.getUserName().equals(ANONYMOUS_NAME)) {
+            countries = findCountriesForAnnonymousUser(game, model, ses);
         } else {
-            countries = countryRepository.findRandom3CountriesForOneContinent(game.getId(), game.getArea().getName(), game.getLevel().getKod());
+            if (game.getArea().equals(AreaEnum.CALY_SWIAT)) {
+                countries = countryRepository.findRandom3CountriesForWholeWorld(game.getId(), game.getLevel().getKod());
+            } else {
+                countries = countryRepository.findRandom3CountriesForOneContinent(game.getId(), game.getArea().getName(), game.getLevel().getKod());
+            }
         }
         countriesDTO.addAll(countries.stream().map(this::apply).collect(Collectors.toList()));
         model.addAttribute("game", game);
         model.addAttribute("countryForm", new CountryFormDTO(countriesDTO));
         return countriesDTO;
     }
+
+    private List<CountryEntity> findCountriesForAnnonymousUser(GameEntity game, Model model, HttpSession ses) {
+        List<CountryEntity> countries;
+        List<GuessedEntity> guessed = (List<GuessedEntity>) ses.getAttribute("guessed");
+//        todo zapomina Guessed Entity w sesji
+        if (guessed == null) {
+            if (game.getArea().equals(AreaEnum.CALY_SWIAT)) {
+                countries = countryRepository.findFirstRandom3CountriesForWholeWorldForAnonymous(game.getLevel().getKod());
+            } else {
+                countries = countryRepository.findFirstRandom3CountriesForOneContinentForAnonymous(game.getArea().getName(), game.getLevel().getKod());
+            }
+        } else {
+            List<Long> idGuessedCountries = guessed.stream().map(g -> g.getCountry().getId()).collect(Collectors.toList());
+            if (game.getArea().equals(AreaEnum.CALY_SWIAT)) {
+                countries = countryRepository.findRandom3CountriesForWholeWorldForAnonymous(game.getLevel().getKod(), idGuessedCountries);
+            } else {
+                countries = countryRepository.findRandom3CountriesForOneContinentForAnonymous(game.getArea().getName(), game.getLevel().getKod(), idGuessedCountries);
+            }
+        }
+        return countries;
+    }
+
 
     private CountryDTO apply(CountryEntity c) {
         return new CountryDTO(c.getId(), c.getContinent(), c.getCountryName(), c.getCapital(), null, null);
