@@ -58,12 +58,12 @@ public class GameService implements CrudService<GameEntity> {
         } else {
             game = new GameEntity(user);
             setGameNumberForSpecificPlayer(user.getId(), game);
-
         }
         GameParamFormDTO gameParamFormDTO = new GameParamFormDTO();
         model.addAttribute("gameParamFormDTO", gameParamFormDTO);
         model.addAttribute("continents", gameParamFormDTO.getContinents());
         model.addAttribute("game", game);
+
     }
 
 
@@ -85,6 +85,9 @@ public class GameService implements CrudService<GameEntity> {
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game.setModificationDate(LocalDateTime.now());
             gameRepository.save(game);
+        } else {
+            List<Long> idGuessedCountries = new ArrayList<>();
+            model.addAttribute("idGuessedCountries", idGuessedCountries);
         }
         findRandom3CountriesAndAddToModel(game, user, model, ses);
     }
@@ -121,7 +124,7 @@ public class GameService implements CrudService<GameEntity> {
     private List<CountryEntity> findCountriesForAnnonymousUser(GameEntity game, Model model, HttpSession ses) {
         List<CountryEntity> countries;
         List<GuessedEntity> guessed = (List<GuessedEntity>) ses.getAttribute("guessed");
-//        todo zapomina Guessed Entity w sesji
+        List<Long> idGuessedCountries = (List<Long>) ses.getAttribute("idGuessedCountries");
         if (guessed == null) {
             if (game.getArea().equals(AreaEnum.CALY_SWIAT)) {
                 countries = countryRepository.findFirstRandom3CountriesForWholeWorldForAnonymous(game.getLevel().getKod());
@@ -129,7 +132,9 @@ public class GameService implements CrudService<GameEntity> {
                 countries = countryRepository.findFirstRandom3CountriesForOneContinentForAnonymous(game.getArea().getName(), game.getLevel().getKod());
             }
         } else {
-            List<Long> idGuessedCountries = guessed.stream().map(g -> g.getCountry().getId()).collect(Collectors.toList());
+            idGuessedCountries.addAll(guessed.stream().map(g -> g.getCountry().getId()).collect(Collectors.toList()));
+            model.addAttribute("idGuessedCountries", idGuessedCountries);
+
             if (game.getArea().equals(AreaEnum.CALY_SWIAT)) {
                 countries = countryRepository.findRandom3CountriesForWholeWorldForAnonymous(game.getLevel().getKod(), idGuessedCountries);
             } else {

@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import pl.wojak.geoquiz.entity.UserEntity;
 
 import javax.servlet.http.HttpSession;
+import java.util.Enumeration;
 
 @Service
 public class HomeService {
@@ -16,5 +17,20 @@ public class HomeService {
             user = new UserEntity();
         }
         model.addAttribute("user", user);
+    }
+
+    public void clearSessionExceptUser(HttpSession ses) {
+
+        if (ses != null) {
+            Enumeration sesEnumeration = ses.getAttributeNames();
+            while (sesEnumeration.hasMoreElements()) {
+                Object atrr = sesEnumeration.nextElement();
+                if (atrr.toString().equals("user")) {
+                    continue;
+                } else {
+                    ses.removeAttribute(atrr.toString());
+                }
+            }
+        }
     }
 }

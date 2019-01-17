@@ -18,7 +18,7 @@ import static pl.wojak.geoquiz.constant.ANONYMOUS_NAME;
 
 @Controller
 @RequestMapping("/game")
-@SessionAttributes({"user", "countryForm", "game", "guessed"})
+@SessionAttributes({"user", "countryForm", "game", "guessed", "idGuessedCountries"})
 public class GameController {
 
     @Autowired
@@ -52,7 +52,7 @@ public class GameController {
 
         List<CountryDTO> countries = gameService.game(user, game, model, ses);
         if (countries.isEmpty()) {
-            return "game/win";
+            return "redirect:/game/win";
         } else {
             return "game/form01";
         }

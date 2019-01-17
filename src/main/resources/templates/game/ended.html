@@ -26,7 +26,7 @@
 
     <div id="main">
         <h1 th:text="#{index.title}"></h1>
-        <h1 th:text="${user == null} ? #{game.end.thx}: #{game.end.thxUser(${user.userName})}"></h1>
+        <h1 th:text="${user == null} ? #{game.end.thx} : #{game.end.thxUser(${user.userName})}"></h1>
         <br> <br>
 
         <div class="center">
@@ -36,13 +36,13 @@
 
         <p th:text="#{index.autor}"></p>
 
-    <div id="footer">
-        <a href="newgame" th:text="#{footer.newgame}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="/geoquiz" th:text="#{footer.mainPage}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
-        <a href="../funfact/all" th:text="#{footer.quiz}"> </a>
+        <div id="footer">
+            <a href="newgame" th:text="#{footer.newgame}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+            <a href="/geoquiz" th:text="#{footer.mainPage}"> </a> &nbsp;&nbsp; | &nbsp;&nbsp;
+            <a href="../funfact/all" th:text="#{footer.quiz}"> </a>
+        </div>
+
+
     </div>
-
-
-</div>
 </body>
 </html>
