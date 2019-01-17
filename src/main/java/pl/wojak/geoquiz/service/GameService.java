@@ -30,13 +30,15 @@ public class GameService implements CrudService<GameEntity> {
     private final GameRepository gameRepository;
     private final CountryRepository countryRepository;
     private final GuessedRepository guessedRepository;
+    private final EmailService emailService;
 
 
     public GameService(GameRepository gameRepository, CountryRepository countryRepository,
-                       GuessedRepository guessedRepository) {
+                       GuessedRepository guessedRepository, EmailService emailService) {
         this.gameRepository = gameRepository;
         this.countryRepository = countryRepository;
         this.guessedRepository = guessedRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -85,6 +87,7 @@ public class GameService implements CrudService<GameEntity> {
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game.setModificationDate(LocalDateTime.now());
             gameRepository.save(game);
+            emailService.prepareEmail(user.getEmail(), "Stworzyłeś nową grę");
         } else {
             List<Long> idGuessedCountries = new ArrayList<>();
             model.addAttribute("idGuessedCountries", idGuessedCountries);
