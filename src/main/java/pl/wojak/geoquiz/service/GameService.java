@@ -16,16 +16,17 @@ import pl.wojak.geoquiz.repository.GameRepository;
 import pl.wojak.geoquiz.repository.GuessedRepository;
 
 import javax.servlet.http.HttpSession;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import static pl.wojak.geoquiz.constant.ANONYMOUS_NAME;
 
 @Service
 public class GameService implements CrudService<GameEntity> {
-
 
     private final GameRepository gameRepository;
     private final CountryRepository countryRepository;
@@ -65,7 +66,6 @@ public class GameService implements CrudService<GameEntity> {
         model.addAttribute("gameParamFormDTO", gameParamFormDTO);
         model.addAttribute("continents", gameParamFormDTO.getContinents());
         model.addAttribute("game", game);
-
     }
 
 
@@ -87,13 +87,31 @@ public class GameService implements CrudService<GameEntity> {
         if (!(user.getUserName().equals(ANONYMOUS_NAME))) {
             game.setModificationDate(LocalDateTime.now());
             gameRepository.save(game);
-            emailService.prepareEmail(user.getEmail(), "Stworzyłeś nową grę");
+            sendEmail(user);
         } else {
             List<Long> idGuessedCountries = new ArrayList<>();
             model.addAttribute("idGuessedCountries", idGuessedCountries);
+            sendEmail(user);
         }
+        System.out.println("Data po wysłaniu maila: " + LocalDateTime.now());
         findRandom3CountriesAndAddToModel(game, user, model, ses);
     }
+
+    private void sendEmail(UserEntity user) {
+
+        String temat = MessageFormat.format(ResourceBundle.getBundle("messages").getString("mail.tittle"), user.getUserName());
+
+        String tresc = ResourceBundle.getBundle("messages").getString("mail.content");
+        String adresat;
+        if (user.getUserName().equals(ANONYMOUS_NAME)) {
+            adresat = ResourceBundle.getBundle("messages").getString("mail.addressee");
+            emailService.sendSimpleEmail(temat, tresc, adresat);
+        } else {
+            adresat = user.getEmail();
+            emailService.sendExpandedEmail(temat, tresc, adresat);
+        }
+    }
+
 
     public List<CountryDTO> game(UserEntity user, GameEntity game, Model model, HttpSession ses) {
 
